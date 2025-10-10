@@ -14,7 +14,7 @@ class Personnel : IUser
 
   public bool TryLogin(string username, string password)
   {
-    return username == Username && password == _password;
+    return username == Username && password == Password;
   }
 
   public bool IsRole(Role role)
