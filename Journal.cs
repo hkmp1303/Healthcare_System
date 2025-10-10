@@ -26,3 +26,8 @@ class JournalEntry
         DoctorRead, // Bara läkare kan läsa
     }
 }
+
+/*
+Note:
+använd ReadPermisson med User role för att skriva logik????
+*/
