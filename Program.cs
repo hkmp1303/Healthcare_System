@@ -1,6 +1,10 @@
 ﻿using HospitalApp;
 
 List<IUser> users = new();
+List<JournalEntry> journals = new();
+
+users.Add(new Patient("ptest", "ptest")); //test Patient
+users.Add(new Personnel("pertest", "test")); //test personal
 
 IUser? activeUser = null;
 

@@ -2,8 +2,9 @@ namespace HospitalApp;
 
     interface IUser
     {
-        public bool IsRole(Role role);
 
+
+        public bool IsRole(Role role);
         public bool TryLogin(string username, string password);
     }
 
@@ -12,6 +13,6 @@ namespace HospitalApp;
         Patient,
         Admin,
         Personnel,
-
-
     }
+    
+
