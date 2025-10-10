@@ -3,13 +3,13 @@ namespace HospitalApp;
 class Personnel : IUser
 {
   public string Username;
-  string _password;
+  public string Password;
 
   public Personnel(string username, string password)
 
   {
     Username = username;
-    _password = password;
+    Password = password;
   }
 
   public bool TryLogin(string username, string password)
