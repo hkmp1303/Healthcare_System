@@ -3,8 +3,8 @@ namespace HospitalApp;
 abstract class CommonPersonnel : IUser
 {
     public string Username;
-    private string _password;
-    private Role _role;
+    public string _password;
+    public Role _role;
     //public string Region;
     //public string Location;
 
