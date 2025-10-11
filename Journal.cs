@@ -5,16 +5,16 @@ namespace HospitalApp;
 class JournalEntry
 {
     //id på journalen?
-    public string PatientID;
-    public string DoctorID;
+    public IUser Patient;
+    public IUser Personnel;
     public string Text;
     //tid när den skrevs?
     public ReadPermisson readPermisson; //read permissions?
 
-    public JournalEntry(string patientid, string doctorid, string text)
+    public JournalEntry(IUser patient, IUser personnel, string text)
     {
-        PatientID = patientid;
-        DoctorID = doctorid;
+        Patient = patient;
+        Personnel = personnel;
         Text = text;
 
         readPermisson = ReadPermisson.None; //börja som None. set när man lägger in en entry
@@ -52,7 +52,7 @@ class JournalEntry
         System.Console.WriteLine("Write documentaion:");
         string? TextInput = Console.ReadLine();
 
-        journals.Add(new JournalEntry(paitentuser.Email, "xxx", TextInput!));  //fråga om vi kan lägga till username i IUser?
+        journals.Add(new JournalEntry(paitentuser, activeUser!, TextInput!));  //fråga om vi kan lägga till username i IUser?
         
     }
 }
