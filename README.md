@@ -10,7 +10,7 @@ Utilizing github features such as creating millstones and issues to track goal p
 
 Lastly, producing the minimal viable product (MVP) was emphasized as a key decision making condition when considering design options or feature expansions.
 
-## System requirements:
+## ✔️ System requirements:
 - [ ] security and safety: limit user access to information based on role
 - **Users**
   - [ ] login
@@ -45,7 +45,7 @@ Lastly, producing the minimal viable product (MVP) was emphasized as a key decis
 - [ ] implement dictionary for user accounts
 -->
 
-## How to Run
+## 🚀 How to Run
 ```
 git clone git@github.com:hkmp1303/Healthcare_System.git
 
@@ -54,10 +54,10 @@ cd Healthcare_System
 dotnet run
 ```
 
-## Quick guide
+## 🦮 Quick guide
 Follow on screen console prompts throughout the system. Menus will display key characters for user selection to navigate the program.
 
-## Design Structure
+## 🖌️ Design Structure
 The goals of this project include to practice using OOP, state machine design and collaboration with multiple project contributors.
 
 In accordance with state machine design, as internal program states change these changes alter object behavior.
