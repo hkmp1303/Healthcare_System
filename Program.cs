@@ -42,5 +42,5 @@ while (running)
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
     }
-    saving.SaveUser(users);
+
 }
