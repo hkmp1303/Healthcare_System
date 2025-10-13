@@ -54,6 +54,9 @@ while (running)
             case "2":
                 js.SeeJournal(journals);
                 break;
+            case "3":
+                activeUser = null;
+                break;
         }
 
     }    
