@@ -3,8 +3,9 @@
 List<IUser> users = new();
 List<JournalEntry> journals = new();
 
-users.Add(new Patient("ptest", "ptest")); //test Patient
-users.Add(new Personnel("pertest", "test")); //test personal
+users.Add(new Patient("ptest", "ptest", "200001011234")); //test Patient
+users.Add(new Personnel("pertest", "test", "1001")); //test personal
+
 
 IUser? activeUser = null;
 
@@ -42,6 +43,7 @@ while (running)
     {
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
+
     }    
     
 }

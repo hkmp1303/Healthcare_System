@@ -5,7 +5,7 @@ namespace HospitalApp;
 class JournalEntry
 {
     //id på journalen?
-    public IUser Patient;
+    public IUser Patient;    //testa detta annars får vi gå in och ändra i IUser till Username{get; set;} eller lägga till ett ID som vi kan ha som referens material!!!!
     public IUser Personnel;
     public string Text;
     //tid när den skrevs?
@@ -17,7 +17,7 @@ class JournalEntry
         Personnel = personnel;
         Text = text;
 
-        readPermisson = ReadPermisson.None; //börja som None. set när man lägger in en entry
+        //readPermisson = ReadPermisson.None; //börja som None. set när man lägger in en entry
     }
 
     public enum ReadPermisson
@@ -28,33 +28,33 @@ class JournalEntry
         DoctorRead, // Bara läkare kan läsa
     }
 
-    
-    public void AddJournalEntry(List<JournalEntry> journals, List<IUser> users, IUser? activeUser)
-    {
-        Console.WriteLine("Adding new journal entry:"); //loopa fram till rätt patient
-        Console.WriteLine(" ");
-        Console.WriteLine("Write the name of the patient you wish to make an entry for");
 
-        Patient? paitentuser = null;
+    // public static void AddJournalEntry(List<JournalEntry> journals, List<IUser> users, IUser? activeUser)
+    // {
+    //     Console.WriteLine("Adding new journal entry:"); //loopa fram till rätt patient
+    //     Console.WriteLine(" ");
+    //     Console.WriteLine("Write the name of the patient you wish to make an entry for");
+
+    //     Patient? paitentuser = null;
 
 
-        string? PatientInput = Console.ReadLine();
-        foreach (Patient user in users)
-        {
-            if (user.Email == PatientInput)
-            {
-                paitentuser = user;
-                break;
-            }
-        }
+    //     string? PatientInput = Console.ReadLine();
+    //     foreach (var user in users)
+    //     {
+    //         if (user is Patient p && p.Email == PatientInput)
+    //         {
+    //             paitentuser = p;
+    //             break;
+    //         }
+    //     }
 
-        System.Console.WriteLine($"You have selected {paitentuser!.Email}");
-        System.Console.WriteLine("Write documentaion:");
-        string? TextInput = Console.ReadLine();
+    //     System.Console.WriteLine($"You have selected {paitentuser!.Email}");
+    //     System.Console.WriteLine("Write documentaion:");
+    //     string? TextInput = Console.ReadLine();
 
-        journals.Add(new JournalEntry(paitentuser, activeUser!, TextInput!));  //fråga om vi kan lägga till username i IUser?
-        
-    }
+    //     journals.Add(new JournalEntry(paitentuser, activeUser!, TextInput!));  //fråga om vi kan lägga till username i IUser?
+
+    // }
 }
 
 /*
