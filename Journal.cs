@@ -11,7 +11,7 @@ class JournalEntry
     //tid när den skrevs?
     public ReadPermisson readPermisson; //read permissions?
 
-    public JournalEntry(IUser patient, IUser personnel, string text)
+    public JournalEntry(Patient patient, IUser personnel, string text)
     {
         Patient = patient;
         Personnel = personnel;

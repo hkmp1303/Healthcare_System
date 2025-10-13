@@ -2,16 +2,14 @@ namespace HospitalApp;
 
 class Personnel : IUser
 {
-  public string IdNumber { get; set; }
   public string Username;
   public string Password;
 
-  public Personnel(string username, string password, string employid)
+  public Personnel(string username, string password)
 
   {
     Username = username;
     Password = password;
-    IdNumber = employid;
   }
 
   public bool TryLogin(string username, string password)

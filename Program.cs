@@ -2,9 +2,10 @@
 
 List<IUser> users = new();
 List<JournalEntry> journals = new();
+JournalSystem js = new();
 
-users.Add(new Patient("ptest", "ptest", "200001011234")); //test Patient
-users.Add(new Personnel("pertest", "test", "1001")); //test personal
+users.Add(new Patient("kalle", "k")); //test Patient
+users.Add(new Personnel("doc", "d")); //test personal
 
 
 IUser? activeUser = null;
@@ -43,6 +44,17 @@ while (running)
     {
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
+
+        switch (Console.ReadLine())
+        {
+
+            case "1":
+                js.AddJournalEntry(journals, users, activeUser);
+                break;
+            case "2":
+                js.SeeJournal(journals);
+                break;
+        }
 
     }    
     

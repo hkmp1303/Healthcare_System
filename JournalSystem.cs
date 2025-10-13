@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+
 namespace HospitalApp;
 
 class JournalSystem
@@ -9,29 +11,42 @@ class JournalSystem
         Console.WriteLine(" ");
         Console.WriteLine("Write the name of the patient you wish to make an entry for");
 
-        Patient? paitentuser = null;
 
         string? PatientInput = Console.ReadLine();
 
-        foreach (var user in users)
+
+        Patient? patientuser = users.OfType<Patient>().FirstOrDefault(p => p.Email == PatientInput);
+        // foreach (var user in users)
+        // {
+        //     if (user is Patient p && p.Email == PatientInput)
+        //     {
+        //         patientuser = p;
+        //         break;
+        //     }
+        // }
+
+        if(patientuser == null)
         {
-            if (user is Patient p && p.Email == PatientInput)
-            {
-                paitentuser = p;
-                break;
-            }
+            System.Console.WriteLine("Something went wrong");
+            return;
         }
 
-        System.Console.WriteLine($"You have selected {paitentuser!.Email}");
+        System.Console.WriteLine($"You have selected {patientuser!.Email}");
         System.Console.WriteLine("Write documentaion:");
         string? TextInput = Console.ReadLine();
 
-        journals.Add(new JournalEntry(paitentuser, activeUser!, TextInput!));  //fråga om vi kan lägga till username i IUser?
+        journals.Add(new JournalEntry(patientuser, activeUser!, TextInput!));  //fråga om vi kan lägga till username i IUser?
     }
     
 
-    public void SeeJournal()
+    public void SeeJournal(List<JournalEntry> journals)
     {
-        
+        foreach(JournalEntry je in journals)
+        {
+            System.Console.WriteLine($"Patient {je.Patient}");
+            System.Console.WriteLine($"Entry: {je.Text}");
+            System.Console.WriteLine($"Auther: {je.Personnel}");
+        }
+
     }
 }
