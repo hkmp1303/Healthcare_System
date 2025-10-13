@@ -12,8 +12,8 @@ abstract class CommonPersonnel : IUser
     public CommonPersonnel(string username, string password, Role role /*, Location location*/)
     {
         Username = username;
-        _password = password;
-        _role = role;
+        Password = password;
+        Role = role;
         //Region = location.Region;
         //Location = location;
     }
