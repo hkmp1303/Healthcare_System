@@ -17,15 +17,16 @@ class JournalEntry
         Text = text;
         dateTime = DateTime.Now;
 
-        readPermisson = readPerm; //börja som None. set när man lägger in en entry
+        readPermisson = readPerm;
     }
 
+    [Flags]
     public enum ReadPermisson
     {
         None,
         PatientRead, //public? alla kan läsa?
         PersonnelRead, // dom som jobbar på sjukhuset?
-        AdminRead, // Bara läkare kan läsa
+        AdminRead = 5, // Bara läkare kan läsa
     }
 
     public bool CanRead(IUser user)

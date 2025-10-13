@@ -52,7 +52,7 @@ while (running)
                 js.AddJournalEntry(journals, users, activeUser);
                 break;
             case "2":
-                js.SeeJournal(journals);
+                js.SeeJournal(journals, users, activeUser);
                 break;
             case "3":
                 activeUser = null;

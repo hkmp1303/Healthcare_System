@@ -39,7 +39,7 @@ class JournalSystem
         switch (Console.ReadLine())
         {
             case "1":
-                journals.Add(new JournalEntry(patientuser, activeUser!, TextInput!, JournalEntry.ReadPermisson.PatientRead));
+                journals.Add(new JournalEntry(patientuser, activeUser!, TextInput!, JournalEntry.ReadPermisson.PatientRead | JournalEntry.ReadPermisson.PersonnelRead));
                 break;
             case "2":
                 journals.Add(new JournalEntry(patientuser, activeUser!, TextInput!, JournalEntry.ReadPermisson.PersonnelRead));
@@ -58,15 +58,20 @@ class JournalSystem
     }
 
 
-    public void SeeJournal(List<JournalEntry> journals)
+    public void SeeJournal(List<JournalEntry> journals, List<IUser> users, IUser? activeUser)
     {
+        
         foreach (JournalEntry je in journals)
         {
+            if (je.CanRead(activeUser!))
+            {
             System.Console.WriteLine($"Patient {je.Patient}");
             System.Console.WriteLine($"Entry: {je.Text}");
             System.Console.WriteLine($"Auther: {je.Personnel}");
             System.Console.WriteLine($"Writen: {je.dateTime}");
-            System.Console.WriteLine($"Read Permission: {je.readPermisson}");
+            System.Console.WriteLine($"Read Permission: {je.readPermisson}");    
+            }
+            
         }
 
     }
