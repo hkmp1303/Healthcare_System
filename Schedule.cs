@@ -76,7 +76,8 @@ class Schedule
                     if(selectedTime >= 0 && selectedTime <= 6 && WeekSchedule[Monint,selectedTime] == OpenSlot)
                     {
                         System.Console.WriteLine("You Appointment has now been requested");
-                        WeekSchedule[Monint, selectedTime] = "activeUser";  //activeUser //fixa koden här!!!!
+
+                        //WeekSchedule[Monint, selectedTime] = WeekSchedule[Monint, activeUser];  //activeUser //fixa koden här!!!!
                     }
                 }
 
