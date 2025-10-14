@@ -1,0 +1,5 @@
+namespace HospitalApp;
+
+class Schedule{
+    
+}
