@@ -2,29 +2,44 @@ namespace HospitalApp;
 
 class JournalEntry
 {
-    //id på journalen?
-    public string PatientID;
-    public string DoctorID;
+    public IUser Patient;    //testa detta annars får vi gå in och ändra i IUser till Username{get; set;} eller lägga till ett ID som vi kan ha som referens material!!!!
+    public IUser Personnel;
     public string Text;
-    //tid när den skrevs?
+    public DateTime dateTime;
     public ReadPermisson readPermisson; //read permissions?
 
-    public JournalEntry(string patientid, string doctorid, string text)
+    public JournalEntry(Patient patient, IUser personnel, string text, ReadPermisson readPerm)
     {
-        PatientID = patientid;
-        DoctorID = doctorid;
+        Patient = patient;
+        Personnel = personnel;
         Text = text;
+        dateTime = DateTime.Now;
 
-        readPermisson = ReadPermisson.None; //börja som None. set när man lägger in en entry
+        readPermisson = readPerm;
     }
 
+    [Flags]
     public enum ReadPermisson
     {
         None,
         PatientRead, //public? alla kan läsa?
-        StaffRead, // dom som jobbar på sjukhuset?
-        DoctorRead, // Bara läkare kan läsa
+        PersonnelRead, // dom som jobbar på sjukhuset?
+        AdminRead = 5, // Bara läkare kan läsa
     }
+
+    public bool CanRead(IUser user)
+    {
+        if (user.IsRole(Role.Admin) && (readPermisson & ReadPermisson.AdminRead) != 0)
+            return true;
+        if (user.IsRole(Role.Personnel) && (readPermisson & ReadPermisson.PersonnelRead) != 0)
+            return true;
+        if (user.IsRole(Role.Patient) && user == Patient && (readPermisson & ReadPermisson.PatientRead) != 0)
+            return true;
+        return false;
+    }
+
+
+
 }
 
 /*
