@@ -1,10 +1,13 @@
 ﻿using HospitalApp;
-
-List<IUser> users = new();
-
+Duno saving = new();
+List<IUser> users = saving.LoadUsers();
+List<Patient> patients = new();
 IUser? activeUser = null;
+saving.CheckFile();
+
 
 bool running = true;
+
 
 while (running)
 {
@@ -22,9 +25,9 @@ while (running)
                 Console.Write("Password:");
                 string? passwordInput = Console.ReadLine();
 
-                foreach(IUser user in users)
+                foreach (IUser user in users)
                 {
-                    if(user.TryLogin(usernameInput!, passwordInput!))
+                    if (user.TryLogin(usernameInput!, passwordInput!))
                     {
                         activeUser = user;
                         break;
@@ -38,6 +41,6 @@ while (running)
     {
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
-    }    
-    
+    }
+
 }

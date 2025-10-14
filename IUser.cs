@@ -1,17 +1,17 @@
 namespace HospitalApp;
 
-    interface IUser
-    {
-        public bool IsRole(Role role);
+public interface IUser
+{
+    public bool IsRole(Role role);
 
-        public bool TryLogin(string username, string password);
-    }
+    public bool TryLogin(string username, string password);
+}
 
-    enum Role
-    {
-        Patient,
-        Admin,
-        Personnel,
+public enum Role
+{
+    Patient,
+    Admin,
+    Personnel,
 
 
-    }
+}
