@@ -4,6 +4,7 @@ List<IUser> users = saving.LoadUsers();
 List<Patient> patients = new();
 IUser? activeUser = null;
 
+
 Schedule schedule = new();
 
 
@@ -53,6 +54,28 @@ while (running)
     {
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
+
+        switch (Console.ReadLine())
+        {
+            case "1":
+                schedule.AppointmentRequest(activeUser);
+                break;
+            case "2":
+                schedule.SeeAppointmentRequest();
+                break;
+            case "3":
+                schedule.BookAppointment(users);
+                break;
+            case "4":
+                schedule.PrintSchedule();
+                break;
+            case "5":
+                schedule.PrintSchedulePatient(activeUser);
+                break;
+            case "9":
+                activeUser = null;
+                break;
+        }
 
     }
 
