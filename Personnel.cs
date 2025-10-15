@@ -27,5 +27,9 @@ public class Personnel : IUser
         return Role.Personnel;
     }
 
+        public override string ToString()
+    {
+        return Username;
+    }
 }
 

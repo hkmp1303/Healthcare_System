@@ -28,4 +28,5 @@ class Admin : CommonPersonnel
             //Location.AddLocation(locationName);
         }
     }
+
 }
