@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace HospitalApp;
 
 abstract class CommonPersonnel : IUser
@@ -7,7 +9,9 @@ abstract class CommonPersonnel : IUser
     public Role Role;
     //public string Region;
     //public string Location;
+    public Permission Permissions; // list of Permissions
 
+    // constructor
     public CommonPersonnel(string username, string password, Role role/*, Location location*/)
     {
         Username = username;
@@ -15,6 +19,7 @@ abstract class CommonPersonnel : IUser
         Role = role;
         //Region = location.Region;
         //Location = location;
+        Permissions = new Permission();
     }
 
     public bool TryLogin(string username, string password)
