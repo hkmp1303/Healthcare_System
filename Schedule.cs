@@ -5,6 +5,7 @@ class Schedule
     public const int Days = 5;
     public const int Slots = 7;
     public string[,] WeekSchedule = new string[Days, Slots];
+    public List<String> AppointmentRequests = new();
 
     public string Lunch = "Lunch";
     public string OpenSlot = "No Appointment";
@@ -170,42 +171,54 @@ class Schedule
                 break;
         }
     }
-    
+
     public void PrintSchedulePatient(IUser? activeUser)
     {
         if (activeUser!.IsRole(Role.Patient))
         {
             System.Console.WriteLine("Here are your booked appointments");
 
-            for(int i = 0; i < WeekSchedule.GetLength(0); i++)
+            for (int i = 0; i < WeekSchedule.GetLength(0); i++)
             {
-                for(int j = 0; j < WeekSchedule.GetLength(1); j++)
+                for (int j = 0; j < WeekSchedule.GetLength(1); j++)
                 {
-                    if(WeekSchedule[i,j] == activeUser.ToString())
+                    if (WeekSchedule[i, j] == activeUser.ToString())
                     {
                         switch (i)
                         {
                             case 0:
-                            System.Console.WriteLine($"You have an appointments on the Monday at {j+8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Monday at {j + 8}:00");
                                 break;
                             case 1:
-                            System.Console.WriteLine($"You have an appointments on the Tuesday at {j+8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Tuesday at {j + 8}:00");
                                 break;
                             case 2:
-                            System.Console.WriteLine($"You have an appointments on the Wednesday at {j+8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Wednesday at {j + 8}:00");
                                 break;
                             case 3:
-                            System.Console.WriteLine($"You have an appointments on the Thursday at {j+8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Thursday at {j + 8}:00");
                                 break;
                             case 4:
-                            System.Console.WriteLine($"You have an appointments on the Friday at {j+8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Friday at {j + 8}:00");
                                 break;
                         }
-                        
+
                     }
                 }
             }
         }
+    }
+    
+    public void AppointmentRequest(IUser? activeUser)
+    {
+        System.Console.WriteLine("Request Appointment:");
+        System.Console.WriteLine("Please leave a small description of you condition:");
+        string? DescCond = Console.ReadLine();
+
+        System.Console.WriteLine("press ENTER to send your request");
+        Console.ReadLine();
+
+        AppointmentRequests.Add(activeUser!.ToString() + " " + DescCond);
     }
 
 }
