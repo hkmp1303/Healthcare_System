@@ -4,9 +4,13 @@ class Schedule
 {
     public const int Days = 5;
     public const int Slots = 7;
-    public string[,] WeekSchedule = new string[Days, Slots];
+
+    //public (string patientslot, string doctorslot)[,] WeekSchedule = new string(string patientslot, string doctorslot)[Days, Slots];
+    public (string patientslot, string doctorslot)[,] WeekSchedule = new (string patientslot, string doctorslot)[Days, Slots];
+
     public List<String> AppointmentRequests = new();
 
+    public string Doctor = "doc";
     public string Lunch = "Lunch";
     public string OpenSlot = "No Appointment";
 
@@ -18,21 +22,19 @@ class Schedule
 
     public void FilledNullOnSchedule()
     {
-        //string Lunch = "Lunch";
-        //string OpenSlot = "No Appointment";
-        WeekSchedule[0,5] = Lunch;
-        WeekSchedule[1,5] = Lunch;
-        WeekSchedule[2,5] = Lunch;
-        WeekSchedule[3,5] = Lunch;
-        WeekSchedule[4,5] = Lunch;
+        WeekSchedule[0, 5] = (Lunch , " ");
+        WeekSchedule[1,5] = (Lunch , " ");
+        WeekSchedule[2,5] = (Lunch, " ");
+        WeekSchedule[3,5] = (Lunch, " ");
+        WeekSchedule[4,5] = (Lunch, " ");
 
         for(int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for(int j = 0; j < WeekSchedule.GetLength(1); j++)
             {
-                if(WeekSchedule[i,j] == null)
+                if(WeekSchedule[i,j] == (null, null))
                 {
-                    WeekSchedule[i,j] = OpenSlot;
+                    WeekSchedule[i,j] = (OpenSlot, " ");
                 }
             }
         }
@@ -70,19 +72,26 @@ class Schedule
                 System.Console.WriteLine("Open time slots on Monday:");
                 for (int i = 0; i < WeekSchedule.GetLength(1); i++)
                 {
-                    if (WeekSchedule[Monint, i] == OpenSlot)
+                    if (WeekSchedule[Monint, i] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
                     }
                 }
                 System.Console.WriteLine("Write the number to select time");
                 string? selectedTimeInputMON = Console.ReadLine();
+
+                //lägga till läkare
+                foreach(IUser doc in users)
+                {
+                    if()
+                }
+                    
                 if (int.TryParse(selectedTimeInputMON, out int selectedTimeMON))
                 {
-                    if (selectedTimeMON >= 0 && selectedTimeMON <= 6 && WeekSchedule[Monint, selectedTimeMON] == OpenSlot)
+                    if (selectedTimeMON >= 0 && selectedTimeMON <= 6 && WeekSchedule[Monint, selectedTimeMON] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine("You Appointment has now been requested");
-                        WeekSchedule[Monint, selectedTimeMON] = patientuser!.Email;  //activeUser //fixa koden här!!!!    
+                        WeekSchedule[Monint, selectedTimeMON] = patientuser!.Email;   
                     }
                 }
 
@@ -92,7 +101,7 @@ class Schedule
                 System.Console.WriteLine("Open time slots on Tuesday:");
                 for (int i = 0; i < WeekSchedule.GetLength(1); i++)
                 {
-                    if (WeekSchedule[Tuesint, i] == OpenSlot)
+                    if (WeekSchedule[Tuesint, i] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
                     }
@@ -101,7 +110,7 @@ class Schedule
                 string? selectedTimeInputTU = Console.ReadLine();
                 if (int.TryParse(selectedTimeInputTU, out int selectedTimeTU))
                 {
-                    if (selectedTimeTU >= 0 && selectedTimeTU <= 6 && WeekSchedule[Tuesint, selectedTimeTU] == OpenSlot)
+                    if (selectedTimeTU >= 0 && selectedTimeTU <= 6 && WeekSchedule[Tuesint, selectedTimeTU] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine("You Appointment has now been requested");
                         WeekSchedule[Tuesint, selectedTimeTU] = patientuser!.Email;  //activeUser //fixa koden här!!!!    
@@ -113,7 +122,7 @@ class Schedule
                 System.Console.WriteLine("Open time slots on Wednesday:");
                 for (int i = 0; i < WeekSchedule.GetLength(1); i++)
                 {
-                    if (WeekSchedule[Wedint, i] == OpenSlot)
+                    if (WeekSchedule[Wedint, i] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
                     }
@@ -122,7 +131,7 @@ class Schedule
                 string? selectedTimeInputWED = Console.ReadLine();
                 if (int.TryParse(selectedTimeInputWED, out int selectedTimeWED))
                 {
-                    if (selectedTimeWED >= 0 && selectedTimeWED <= 6 && WeekSchedule[Wedint, selectedTimeWED] == OpenSlot)
+                    if (selectedTimeWED >= 0 && selectedTimeWED <= 6 && WeekSchedule[Wedint, selectedTimeWED] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine("You Appointment has now been requested");
                         WeekSchedule[Wedint, selectedTimeWED] = patientuser!.Email;  //activeUser //fixa koden här!!!!    
@@ -134,7 +143,7 @@ class Schedule
                 System.Console.WriteLine("Open time slots on Thurdays:");
                 for (int i = 0; i < WeekSchedule.GetLength(1); i++)
                 {
-                    if (WeekSchedule[Thurint, i] == OpenSlot)
+                    if (WeekSchedule[Thurint, i] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
                     }
@@ -143,7 +152,7 @@ class Schedule
                 string? selectedTimeInputTH = Console.ReadLine();
                 if (int.TryParse(selectedTimeInputTH, out int selectedTimeTH))
                 {
-                    if (selectedTimeTH >= 0 && selectedTimeTH <= 6 && WeekSchedule[Thurint, selectedTimeTH] == OpenSlot)
+                    if (selectedTimeTH >= 0 && selectedTimeTH <= 6 && WeekSchedule[Thurint, selectedTimeTH] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine("You Appointment has now been requested");
                         WeekSchedule[Thurint, selectedTimeTH] = patientuser!.Email;  //activeUser //fixa koden här!!!!    
@@ -155,7 +164,7 @@ class Schedule
                 System.Console.WriteLine("Open time slots on Friday:");
                 for (int i = 0; i < WeekSchedule.GetLength(1); i++)
                 {
-                    if (WeekSchedule[Friint, i] == OpenSlot)
+                    if (WeekSchedule[Friint, i] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
                     }
@@ -164,7 +173,7 @@ class Schedule
                 string? selectedTimeInputFRI = Console.ReadLine();
                 if (int.TryParse(selectedTimeInputFRI, out int selectedTimeFRI))
                 {
-                    if (selectedTimeFRI >= 0 && selectedTimeFRI <= 6 && WeekSchedule[Friint, selectedTimeFRI] == OpenSlot)
+                    if (selectedTimeFRI >= 0 && selectedTimeFRI <= 6 && WeekSchedule[Friint, selectedTimeFRI] == (OpenSlot, " "))
                     {
                         System.Console.WriteLine("You Appointment has now been requested");
                         WeekSchedule[Friint, selectedTimeFRI] = patientuser!.Email;  //activeUser //fixa koden här!!!!    
@@ -187,7 +196,7 @@ class Schedule
             {
                 for (int j = 0; j < WeekSchedule.GetLength(1); j++)
                 {
-                    if (WeekSchedule[i, j] == activeUser.ToString())
+                    if (WeekSchedule[i, j] == (activeUser.ToString(), " "))
                     {
                         switch (i)
                         {
