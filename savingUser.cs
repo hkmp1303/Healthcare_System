@@ -3,14 +3,12 @@ namespace HospitalApp;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
-
+using System.Reflection.Metadata;
 
 public class Duno
 {
-    public List<Patient> userlist = new();
+    public List<IUser> userList = new();
 
-    Role role = new Role();
     public static string MemoryDir = "./file/";
     public static string MemoryUser = "user.txt";
     public static string UserSave = Path.Combine(MemoryDir, MemoryUser);
@@ -32,16 +30,20 @@ public class Duno
 
     public void SaveUser(List<IUser> users)
     {
-        CheckFile();
+
+        CheckFile();    // ser till att filen finns
         List<string> lines = new();
+        //loopar alla users
         foreach (IUser u in users)
         {
             if (u is Patient p)
                 lines.Add($"Patient;{p.Email};{p.Password}");
             else if (u is Personnel per)
                 lines.Add($"Personnel;{per.Username};{per.Password}");
+            else if (u is Admin ad)
+                lines.Add($"Admin;{ad.Username};{ad.Password}");
         }
-        File.AppendAllLines(UserSave, lines);
+        File.WriteAllLines(UserSave, lines);
 
     }
     public List<IUser> LoadUsers()
@@ -71,7 +73,7 @@ public class Duno
             switch (type)
             {
                 case "Admin":
-                    loadedUsers.Add(new Patient(username, password));
+                    loadedUsers.Add(new Admin(username, password));
                     break;
                 case "Patient":
                     loadedUsers.Add(new Patient(username, password));
@@ -85,8 +87,10 @@ public class Duno
             }
         }
 
+
         return loadedUsers;
     }
+
 
 
 }
