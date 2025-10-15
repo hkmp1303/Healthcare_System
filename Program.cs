@@ -5,7 +5,6 @@ List<Patient> patients = new();
 IUser? activeUser = null;
 saving.CheckFile();
 
-
 bool running = true;
 
 
@@ -50,6 +49,7 @@ while (running)
     {
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
+
     }
 
 }
