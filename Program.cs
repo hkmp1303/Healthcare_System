@@ -35,6 +35,15 @@ while (running)
                 }
 
                 break;
+            case "2":
+                IUser newUser = UserCreator.CreateUF();
+                users.Add(newUser);
+                saving.SaveUser(users);
+                Console.WriteLine("User saved!");
+
+                break;
+
+
         }
     }
     else
