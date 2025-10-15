@@ -4,7 +4,6 @@ List<IUser> users = saving.LoadUsers();
 List<Patient> patients = new();
 IUser? activeUser = null;
 
-
 Schedule schedule = new();
 
 
