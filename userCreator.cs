@@ -3,8 +3,10 @@ namespace HospitalApp;
 
 public static class UserCreator
 {
+
     public static IUser CreateUF()
     {
+
         while (true)
         {
             Console.WriteLine("Choose role:");
