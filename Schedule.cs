@@ -225,7 +225,7 @@ class Schedule
     {
         foreach(var ap in AppointmentRequests)
         {
-            System.Console.WriteLine();
+            System.Console.WriteLine(ap);
         }
     }
 

@@ -64,6 +64,9 @@ while (running)
             case "2":
                 schedule.SeeAppointmentRequest();
                 break;
+            case "3":
+                activeUser = null;
+                break;
         }
     }
 
