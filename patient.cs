@@ -21,4 +21,9 @@ public class Patient : IUser
     {
         return role == Role.Patient;
     }
+
+    public override string ToString()
+    {
+        return Email;
+    }
 }
