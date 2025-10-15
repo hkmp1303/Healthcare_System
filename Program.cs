@@ -3,6 +3,11 @@ Duno saving = new();
 List<IUser> users = saving.LoadUsers();
 List<Patient> patients = new();
 IUser? activeUser = null;
+
+
+Schedule schedule = new();
+
+
 saving.CheckFile();
 
 
@@ -41,6 +46,16 @@ while (running)
     {
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
+
+        switch (Console.ReadLine())
+        {
+            case "1":
+                schedule.AppointmentRequest(activeUser);
+                break;
+            case "2":
+                schedule.SeeAppointmentRequest();
+                break;
+        }
     }
 
 }

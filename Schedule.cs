@@ -208,7 +208,7 @@ class Schedule
             }
         }
     }
-    
+
     public void AppointmentRequest(IUser? activeUser)
     {
         System.Console.WriteLine("Request Appointment:");
@@ -219,6 +219,14 @@ class Schedule
         Console.ReadLine();
 
         AppointmentRequests.Add(activeUser!.ToString() + " " + DescCond);
+    }
+    
+    public void SeeAppointmentRequest()
+    {
+        foreach(var ap in AppointmentRequests)
+        {
+            System.Console.WriteLine();
+        }
     }
 
 }
