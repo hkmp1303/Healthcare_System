@@ -5,7 +5,6 @@ List<Patient> patients = new();
 IUser? activeUser = null;
 saving.CheckFile();
 
-
 bool running = true;
 
 
@@ -35,12 +34,22 @@ while (running)
                 }
 
                 break;
+            case "2":
+                IUser newUser = UserCreator.CreateUF();
+                users.Add(newUser);
+                saving.SaveUser(users);
+                Console.WriteLine("User saved!");
+
+                break;
+
+
         }
     }
     else
     {
         System.Console.WriteLine("welcome");
         System.Console.WriteLine("You're logged in");
+
     }
 
 }
