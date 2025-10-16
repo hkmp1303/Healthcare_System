@@ -5,14 +5,15 @@ class Schedule
     public const int Days = 5;
     public const int Slots = 7;
 
-    //public (string patientslot, string doctorslot)[,] WeekSchedule = new string(string patientslot, string doctorslot)[Days, Slots];
     public (string patientslot, string doctorslot)[,] WeekSchedule = new (string patientslot, string doctorslot)[Days, Slots];
 
     public List<String> AppointmentRequests = new();
 
-    public string Doctor = "doc";
+    
     public string Lunch = "Lunch";
     public string OpenSlot = "Open Slot";
+
+    DayOfWeek WeekDay = DateTime.Today.DayOfWeek;
 
 
     public Schedule()
@@ -41,7 +42,8 @@ class Schedule
     }
 
     public void PrintSchedule() //skrota?
-    {
+    {   
+        System.Console.WriteLine("Staff schedule:");
         Console.WriteLine($"Day:  |-Monday-|-Tuesday-|-Wednesday-|-Thursday-|-Friday-|");
         Console.WriteLine($"8.00: |-{WeekSchedule[0, 0]}-|-{WeekSchedule[1, 0]}-|-{WeekSchedule[2, 0]}-|-{WeekSchedule[3, 0]}-|-{WeekSchedule[4, 0]}-|");
         Console.WriteLine($"9.00: |-{WeekSchedule[0, 1]}-|-{WeekSchedule[1, 1]}-|-{WeekSchedule[2, 1]}-|-{WeekSchedule[3, 1]}-|-{WeekSchedule[4, 1]}-|");
@@ -56,8 +58,20 @@ class Schedule
     public void BookAppointment(List<IUser> users)
     {
         Console.WriteLine("Appointment Booking:");
+        System.Console.WriteLine(" ");
+        for (int i = 0; i < AppointmentRequests.Count; i++)
+        {
+            Console.WriteLine($"booking request number:{i}: {AppointmentRequests[i]}");
+        }
 
-        System.Console.WriteLine("Write the name of the patient you wish to book an appointment for:");
+        System.Console.WriteLine(" ");
+        System.Console.WriteLine("Select the booking request you would like to handle:");
+        string? requestSelectedInput = Console.ReadLine();
+        int.TryParse(requestSelectedInput, out int requestedInt);
+        System.Console.WriteLine($"You have select: {AppointmentRequests[requestedInt]}");
+
+
+        System.Console.WriteLine("Write the name of the patient you wish to book the appointment for:");
         string? patientSelectInput = Console.ReadLine();
 
         Patient? patientuser = users.OfType<Patient>().FirstOrDefault(p => p.Email == patientSelectInput);
@@ -100,7 +114,8 @@ class Schedule
                     if (selectedTimeMON >= 0 && selectedTimeMON <= 6 && WeekSchedule[Monint, selectedTimeMON] == (OpenSlot, " "))
                     {
                         var BookedDocMon = doctorList[selectedDocMon];
-                        System.Console.WriteLine("You Appointment has now been requested");
+                        System.Console.WriteLine("The appointment is now booked");
+                        AppointmentRequests.RemoveAt(requestedInt);
                         WeekSchedule[Monint, selectedTimeMON] = (patientuser!.Email,BookedDocMon.Username);   
                     }
                 }
@@ -137,7 +152,8 @@ class Schedule
                     if (selectedTimeTU >= 0 && selectedTimeTU <= 6 && WeekSchedule[Tuesint, selectedTimeTU] == (OpenSlot, " "))
                     {
                         var BookedDocTU = doctorList[selectedDocTU];
-                        System.Console.WriteLine("You Appointment has now been requested");
+                        System.Console.WriteLine("The appointment is now booked");
+                        AppointmentRequests.RemoveAt(requestedInt);
                         WeekSchedule[Tuesint, selectedTimeTU] = (patientuser!.Email,BookedDocTU.Username);   
                     }
                 }
@@ -173,14 +189,15 @@ class Schedule
                     if (selectedTimeWED >= 0 && selectedTimeWED <= 6 && WeekSchedule[Wedint, selectedTimeWED] == (OpenSlot, " "))
                     {
                         var BookedDocWED = doctorList[selectedDocWED];
-                        System.Console.WriteLine("You Appointment has now been requested");
+                        System.Console.WriteLine("The appointment is now booked");
+                        AppointmentRequests.RemoveAt(requestedInt);
                         WeekSchedule[Wedint, selectedTimeWED] = (patientuser!.Email,BookedDocWED.Username);   
                     }
                 }
                 break;
             case "thur":
                 int Thurint = 3;
-                                System.Console.WriteLine("Open time slots on Monday:");
+                System.Console.WriteLine("Open time slots on Monday:");
                 for (int i = 0; i < WeekSchedule.GetLength(1); i++)
                 {
                     if (WeekSchedule[Thurint, i] == (OpenSlot, " "))
@@ -209,7 +226,8 @@ class Schedule
                     if (selectedTimeTH >= 0 && selectedTimeTH <= 6 && WeekSchedule[Thurint, selectedTimeTH] == (OpenSlot, " "))
                     {
                         var BookedDocTH = doctorList[selectedDocTH];
-                        System.Console.WriteLine("You Appointment has now been requested");
+                        System.Console.WriteLine("The appointment is now booked");
+                        AppointmentRequests.RemoveAt(requestedInt);
                         WeekSchedule[Thurint, selectedTimeTH] = (patientuser!.Email,BookedDocTH.Username);   
                     }
                 }
@@ -245,7 +263,8 @@ class Schedule
                     if (selectedTimeFR >= 0 && selectedTimeFR <= 6 && WeekSchedule[Friint, selectedTimeFR] == (OpenSlot, " "))
                     {
                         var BookedDocFR = doctorList[selectedDocFR];
-                        System.Console.WriteLine("You Appointment has now been requested");
+                        System.Console.WriteLine("The appointment is now booked");
+                        AppointmentRequests.RemoveAt(requestedInt);
                         WeekSchedule[Friint, selectedTimeFR] = (patientuser!.Email,BookedDocFR.Username);   
                     }
                 }
@@ -293,9 +312,97 @@ class Schedule
         }
     }
 
-    public void PrintSchedulePersonnal()
+    public void PrintSchedulePersonnal(IUser? activeUser)
     {
-        
+        System.Console.WriteLine("Schedule:");
+        System.Console.WriteLine("[1] See your schedule for the day.");
+        System.Console.WriteLine("[2] See your schedule for the week.");
+        switch (Console.ReadLine())
+        {
+            case "1":
+                switch (WeekDay)
+                {
+                    case DayOfWeek.Monday:
+                        for(int i = 0; i < WeekSchedule.GetLength(1); i++)
+                        {
+                            if(activeUser!.ToString() == WeekSchedule[0, i].doctorslot)
+                            {
+                                System.Console.WriteLine($"{i + 8}:00. Paitent: {WeekSchedule[0,i].patientslot}");
+                            }
+                        }
+                        break;
+                    case DayOfWeek.Tuesday:
+                        for (int i = 0; i < WeekSchedule.GetLength(1); i++)
+                        {
+                            if (activeUser!.ToString() == WeekSchedule[0, i].doctorslot)
+                            {
+                                System.Console.WriteLine($"{i + 8}:00. Paitent: {WeekSchedule[1, i].patientslot}");
+                            }
+                        }                    
+                        break;
+                    case DayOfWeek.Wednesday:
+                        for(int i = 0; i < WeekSchedule.GetLength(1); i++)
+                        {
+                            if(activeUser!.ToString() == WeekSchedule[2, i].doctorslot)
+                            {
+                                System.Console.WriteLine($"{i + 8}:00. Paitent: {WeekSchedule[0,i].patientslot}");
+                            }
+                        }
+                    break;
+                    case DayOfWeek.Thursday:
+                        for(int i = 0; i < WeekSchedule.GetLength(1); i++)
+                        {
+                            if(activeUser!.ToString() == WeekSchedule[3, i].doctorslot)
+                            {
+                                System.Console.WriteLine($"{i + 8}:00. Paitent: {WeekSchedule[3,i].patientslot}");
+                            }
+                        }
+                    break;
+                    case DayOfWeek.Friday:
+                        for(int i = 0; i < WeekSchedule.GetLength(1); i++)
+                        {
+                            if(activeUser!.ToString() == WeekSchedule[4, i].doctorslot)
+                            {
+                                System.Console.WriteLine($"{i + 8}:00. Paitent: {WeekSchedule[4,i].patientslot}");
+                            }
+                        }
+                        break;
+                    
+                }
+                break;
+            case "2":
+                for(int i = 0; i < WeekSchedule.GetLength(0); i++)
+                {
+                    for(int j = 0; j < WeekSchedule.GetLength(1); j++)
+                    {
+                            if(activeUser!.ToString() == WeekSchedule[i, j].doctorslot)
+                            {
+                            if (i == 0)
+                            {
+                                System.Console.WriteLine($"Monday at {i + 8}:00. Paitent: {WeekSchedule[i, j].patientslot}");
+                            }
+                            else if (i == 1)
+                            {
+                                System.Console.WriteLine($"Tuesday at {i + 8}:00. Paitent: {WeekSchedule[i, j].patientslot}");
+                            }
+                            else if (i == 2)
+                            {
+                                System.Console.WriteLine($"Wednesday at {i + 8}:00. Paitent: {WeekSchedule[i, j].patientslot}");
+                            }
+                            else if (i == 3)
+                            {
+                                System.Console.WriteLine($"Thursday at {i + 8}:00. Paitent: {WeekSchedule[i, j].patientslot}");
+                            }
+                            else if (i == 4)
+                            {
+                                System.Console.WriteLine($"Friday at {i + 8}:00. Paitent: {WeekSchedule[i, j].patientslot}");
+                            }
+                                
+                            }
+                    }
+                }
+                break;
+        }
     }
 
     public void AppointmentRequest(IUser? activeUser)
@@ -312,9 +419,9 @@ class Schedule
     
     public void SeeAppointmentRequest()
     {
-        foreach(var ap in AppointmentRequests)
+        for (int i = 0; i < AppointmentRequests.Count; i++)
         {
-            System.Console.WriteLine(ap);
+            Console.WriteLine($"booking request number:{i}: {AppointmentRequests[i]}");
         }
     }
 
