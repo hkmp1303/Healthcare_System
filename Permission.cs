@@ -1,9 +1,6 @@
-using System.Globalization;
-
 namespace HospitalApp;
 // As an admin, able to give permission to handle registrations, add locations,
 // create personnel accounts, view list of permissions
-
 
 class Permission
 {
@@ -20,7 +17,7 @@ class Permission
         public bool CanHandleAppointments; // register, modify, approve appointments
         public bool CanHandleJournalEntries; // view entries, assign read permissions
         public AdminToPersonnelPermission CanAssignPersonnelPermissions;
-        #endregion
+    #endregion
 
     // Dictionary of Permissions
     static Dictionary<string, Permission> Permissions = new();
@@ -40,11 +37,33 @@ class Permission
     {
         //(user.Permissions.CanAssignAdminRegions.Find)
     }
+    // this method should run after load file
+    // sets Admin and Personnel permissions
+    public static void AttachPermissionsToUsers(Dictionary<string, IUser> Users)
+    {
+        foreach (var user in Utilities.FilterCommonPersonnel(Users))
+        {
+            Permission? perm = null;
+            if (Permissions.TryGetValue(user.Key, out perm))
+            {
+                switch (user.Value.Role)
+                {
+                    case Role.Admin:
+                        user.Value.Permissions = perm;
+                        break;
+                    case Role.Personnel:
+                        user.Value.Permissions = perm;
+                        break;
+                }
+
+            }
+        }
+    }
 }
 
 // As admin, be able to assign or give permissions
 [Flags] // enables verbate representation when .ToString() is used
-enum AdminToAdminPermission
+public enum AdminToAdminPermission
 {
     False, // can not assign persmissions
     RegisterPatients, // nonfalse, can or true
@@ -54,7 +73,7 @@ enum AdminToAdminPermission
 }
 
 [Flags] // enables verbatim representation when .ToString() is used
-enum AdminToPersonnelPermission
+public enum AdminToPersonnelPermission
 {
     False, // can not, lacks permission
     ViewJournalEntries, // nonfalse, can or true
