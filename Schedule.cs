@@ -62,6 +62,8 @@ class Schedule
 
         Patient? patientuser = users.OfType<Patient>().FirstOrDefault(p => p.Email == patientSelectInput);
 
+        var doctorList = users.OfType<Personnel>().ToList();
+        
         System.Console.WriteLine("Which day would you like to book an appointment?");
         System.Console.WriteLine("[mon,tues,wed,thur,fri]");
         switch (Console.ReadLine())
@@ -81,10 +83,17 @@ class Schedule
                 string? selectedTimeInputMON = Console.ReadLine();
 
                 //lägga till läkare
-                foreach(IUser doc in users)
+                // foreach(Personnel doc in users.OfType<Personnel>())
+                // {
+                //     System.Console.WriteLine($"Doctor: {doc.Username}");
+                // }
+
+                System.Console.WriteLine("Available doctors:");
+                for(int i = 0; i < doctorList.Count; i++)
                 {
-                    if()
+                    System.Console.WriteLine($"{i}: {doctorList[i].Username}");
                 }
+
                     
                 if (int.TryParse(selectedTimeInputMON, out int selectedTimeMON))
                 {
