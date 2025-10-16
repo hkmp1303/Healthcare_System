@@ -7,6 +7,7 @@ abstract class CommonPersonnel : IUser
     public Role Role;
     //public string Region;
     //public string Location;
+    public Permission Permissions; // list of type Permission
 
     public CommonPersonnel(string username, string password, Role role/*, Location location*/)
     {
@@ -15,6 +16,7 @@ abstract class CommonPersonnel : IUser
         Role = role;
         //Region = location.Region;
         //Location = location;
+        Permissions = new Permission();
     }
 
     public bool TryLogin(string username, string password)
@@ -27,7 +29,7 @@ abstract class CommonPersonnel : IUser
         return role == Role;
     }
 
-        public override string ToString()
+    public override string ToString()
     {
         return Username;
     }
