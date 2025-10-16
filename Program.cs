@@ -180,15 +180,13 @@ while (running)
             case "Q":
                 running = false;
                 break;
-            case "2":
+            case "XX":
                 IUser newUser = UserCreator.CreateUF();
                 users.Add(newUser);
                 saving.SaveUser(users);
                 Console.WriteLine("User saved!");
 
                 break;
-
-
         }
     }
     else
