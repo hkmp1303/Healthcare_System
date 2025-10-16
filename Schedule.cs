@@ -12,7 +12,7 @@ class Schedule
 
     public string Doctor = "doc";
     public string Lunch = "Lunch";
-    public string OpenSlot = "No Appointment";
+    public string OpenSlot = "Open Slot";
 
 
     public Schedule()
@@ -271,19 +271,19 @@ class Schedule
                         switch (i)
                         {
                             case 0:
-                                System.Console.WriteLine($"You have an appointments on the Monday at {j + 8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Monday at {j + 8}:00 with doctor: {WeekSchedule[0, j].doctorslot}");
                                 break;
                             case 1:
-                                System.Console.WriteLine($"You have an appointments on the Tuesday at {j + 8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Tuesday at {j + 8}:00 with doctor: {WeekSchedule[1, j].doctorslot}");
                                 break;
                             case 2:
-                                System.Console.WriteLine($"You have an appointments on the Wednesday at {j + 8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Wednesday at {j + 8}:00 with doctor: {WeekSchedule[2, j].doctorslot}");
                                 break;
                             case 3:
-                                System.Console.WriteLine($"You have an appointments on the Thursday at {j + 8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Thursday at {j + 8}:00 with doctor: {WeekSchedule[3, j].doctorslot}");
                                 break;
                             case 4:
-                                System.Console.WriteLine($"You have an appointments on the Friday at {j + 8}:00");
+                                System.Console.WriteLine($"You have an appointments on the Friday at {j + 8}:00 with doctor: {WeekSchedule[4, j].doctorslot}");
                                 break;
                         }
 
@@ -291,6 +291,11 @@ class Schedule
                 }
             }
         }
+    }
+
+    public void PrintSchedulePersonnal()
+    {
+        
     }
 
     public void AppointmentRequest(IUser? activeUser)
