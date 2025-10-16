@@ -1,4 +1,5 @@
-﻿using HospitalApp;
+﻿using System.ComponentModel;
+using HospitalApp;
 Duno saving = new();
 List<IUser> users = saving.LoadUsers();
 List<Patient> patients = new();
@@ -20,8 +21,8 @@ while (running)
 
         switch (Console.ReadLine())
         {
-            case "1":   
-                     //Add a registration case for non-patients/personnel/Admins
+            case "1":
+                //Add a registration case for non-patients/personnel/Admins
                 break;
             case "2":
                 Console.Write("Username:");
@@ -52,20 +53,20 @@ while (running)
         switch (Console.ReadLine())
         {
             case "1":
-                        // View Journal
+                // View Journal
                 break;
             case "2":
-                        // Request an appointment
+                // Request an appointment
                 break;
             case "3":
-                        // View Schedule
+                // View Schedule
                 break;
             case "L":
                 if (activeUser != null)
-            {
-                activeUser = null;
-                Console.WriteLine("Succesfully logged out");
-            }
+                {
+                    activeUser = null;
+                    Console.WriteLine("Succesfully logged out");
+                }
                 break;
             case "Q":
                 running = false;
@@ -107,10 +108,10 @@ while (running)
                 break;
             case "L":
                 if (activeUser != null)
-            {
-                activeUser = null;
-                Console.WriteLine("Succesfully logged out");
-            }
+                {
+                    activeUser = null;
+                    Console.WriteLine("Succesfully logged out");
+                }
                 break;
             case "Q":
                 running = false;
@@ -120,18 +121,20 @@ while (running)
 
     if (activeUser!.IsRole(Role.Admin))
     {
+
         System.Console.WriteLine("Welcome admin,");
         System.Console.WriteLine("[L]. Log Out");
+        Console.WriteLine("[u] add user");
         System.Console.WriteLine("[Q]. Quit");
 
         switch (Console.ReadLine())
         {
             case "L":
                 if (activeUser != null)
-            {
-                activeUser = null;
-                Console.WriteLine("Succesfully logged out");
-            }
+                {
+                    activeUser = null;
+                    Console.WriteLine("Succesfully logged out");
+                }
                 break;
             case "Q":
                 running = false;
@@ -142,6 +145,12 @@ while (running)
                 saving.SaveUser(users);
                 Console.WriteLine("User saved!");
 
+                break;
+            case "u":
+                IUser newUSer = UserCreator.CreateUFAdmin();
+                users.Add(newUSer);
+                saving.SaveUser(users);
+                Console.WriteLine("succses");
                 break;
 
 
