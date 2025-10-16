@@ -4,7 +4,7 @@ namespace HospitalApp;
 public static class UserCreator
 {
 
-    public static IUser CreateUF()
+    public static IUser CreateUFAdmin()
     {
 
         while (true)
@@ -44,5 +44,39 @@ public static class UserCreator
                     break;
             }
         }
+    }
+    public static IUser CreateUFPersonell()
+    {
+        while (true)
+        {
+            Console.WriteLine("Choose role:");
+            Console.WriteLine("[1] Patient");
+            Console.WriteLine("[2] Personnel");
+            Console.Write("Choice: ");
+            string? choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    Console.Write("Email: ");
+                    string email = Console.ReadLine() ?? "";
+                    Console.Write("Password: ");
+                    string ppass = Console.ReadLine() ?? "";
+                    return new Patient(email, ppass);
+
+                case "2":
+                    Console.Write("Username: ");
+                    string perUser = Console.ReadLine() ?? "";
+                    Console.Write("Password: ");
+                    string perPass = Console.ReadLine() ?? "";
+                    return new Personnel(perUser, perPass);
+
+                default:
+                    Console.WriteLine("Invalid choice, try again.");
+                    break;
+            }
+
+        }
+
+
     }
 }
