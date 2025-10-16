@@ -3,6 +3,11 @@ Duno saving = new();
 List<IUser> users = saving.LoadUsers();
 List<Patient> patients = new();
 IUser? activeUser = null;
+
+
+Schedule schedule = new();
+
+
 saving.CheckFile();
 
 bool running = true;
@@ -180,7 +185,8 @@ while (running)
             case "Q":
                 running = false;
                 break;
-            case "XX":
+            case "20000": //move this to where it's suppose to be!!!!!!!!!!11
+ 
                 IUser newUser = UserCreator.CreateUF();
                 users.Add(newUser);
                 saving.SaveUser(users);
