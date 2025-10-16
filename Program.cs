@@ -20,9 +20,15 @@ while (running)
 
         switch (Console.ReadLine())
         {
-            case "1":   
-                     //Add a registration case for non-patients/personnel/Admins
+            case "1":
+                IUser newUSer = UserCreator.CreateUnreg();
+                users.Add(newUSer);
+                saving.SaveUser(users);
+                Console.WriteLine("sucssses");
                 break;
+
+
+            // break;
             case "2":
                 Console.Write("Username:");
                 string? usernameInput = Console.ReadLine();
@@ -38,9 +44,18 @@ while (running)
                     }
                 }
                 break;
+            case "Q":
+                running = false;
+                break;
         }
     }
-    if (activeUser!.IsRole(Role.Patient))
+    else if (activeUser!.IsRole(Role.UnregUser))
+    {
+        Console.WriteLine("you are unregisterd");
+        Console.ReadKey();
+        activeUser = null;
+    }
+    else if (activeUser!.IsRole(Role.Patient))
     {
         System.Console.WriteLine("Welcome patient, "); // Should say ("Welcome patient, " + Patient-Name)
         System.Console.WriteLine("[1]. View Journal");
@@ -52,20 +67,20 @@ while (running)
         switch (Console.ReadLine())
         {
             case "1":
-                        // View Journal
+                // View Journal
                 break;
             case "2":
-                        // Request an appointment
+                // Request an appointment
                 break;
             case "3":
-                        // View Schedule
+                // View Schedule
                 break;
             case "L":
                 if (activeUser != null)
-            {
-                activeUser = null;
-                Console.WriteLine("Succesfully logged out");
-            }
+                {
+                    activeUser = null;
+                    Console.WriteLine("Succesfully logged out");
+                }
                 break;
             case "Q":
                 running = false;
@@ -73,7 +88,7 @@ while (running)
         }
     }
 
-    if (activeUser!.IsRole(Role.Personnel))
+    else if (activeUser!.IsRole(Role.Personnel))
     {
         System.Console.WriteLine("Welcome personnel, "); // Should say ("Welcome personnel, " + personnel-Name)
         System.Console.WriteLine("[1]. View patients journal");
@@ -107,10 +122,10 @@ while (running)
                 break;
             case "L":
                 if (activeUser != null)
-            {
-                activeUser = null;
-                Console.WriteLine("Succesfully logged out");
-            }
+                {
+                    activeUser = null;
+                    Console.WriteLine("Succesfully logged out");
+                }
                 break;
             case "Q":
                 running = false;
@@ -118,7 +133,7 @@ while (running)
         }
     }
 
-    if (activeUser!.IsRole(Role.Admin))
+    else if (activeUser!.IsRole(Role.Admin))
     {
         System.Console.WriteLine("Welcome admin,"); // Should say ("Welcome admin, " + Admin-Name)
         System.Console.WriteLine("[1]. Add admins to handle permissions system");
@@ -140,9 +155,8 @@ while (running)
             case "1":
                 // Allow admins to handle permissions system -> in fine granularity 
                 break;
-            case "2":
-                // Allow an admin to handle registrations
-                break;
+
+
             case "3":
                 // Assign an admin to a region
                 break;
@@ -172,10 +186,10 @@ while (running)
                 break;
             case "L":
                 if (activeUser != null)
-            {
-                activeUser = null;
-                Console.WriteLine("Succesfully logged out");
-            }
+                {
+                    activeUser = null;
+                    Console.WriteLine("Succesfully logged out");
+                }
                 break;
             case "Q":
                 running = false;
@@ -191,6 +205,7 @@ while (running)
 
         }
     }
+
     else
     {
         System.Console.WriteLine("welcome");

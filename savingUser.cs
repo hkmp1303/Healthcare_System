@@ -42,6 +42,8 @@ public class Duno
                 lines.Add($"Personnel;{per.Username};{per.Password}");
             else if (u is Admin ad)
                 lines.Add($"Admin;{ad.Username};{ad.Password}");
+            else if (u is UnregUser uu)
+                lines.Add($"UnregUser;{uu.Email};{uu.Password}");
         }
         File.WriteAllLines(UserSave, lines);
 
@@ -80,6 +82,9 @@ public class Duno
                     break;
                 case "Personnel":
                     loadedUsers.Add(new Personnel(username, password));
+                    break;
+                case "UnregUser":
+                    loadedUsers.Add(new UnregUser(username, password));
                     break;
                 default:
                     Console.WriteLine($"Okänd användartyp: {type}");
