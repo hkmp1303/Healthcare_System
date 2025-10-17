@@ -3,9 +3,11 @@ Duno saving = new();
 List<IUser> users = saving.LoadUsers();
 List<Patient> patients = new();
 IUser? activeUser = null;
+List<JournalEntry> journals = new();
 
 
 Schedule schedule = new();
+JournalSystem journalSystem = new();
 
 
 saving.CheckFile();
@@ -57,10 +59,10 @@ while (running)
         switch (Console.ReadLine())
         {
             case "1":
-                        // View Journal
+                journalSystem.SeeJournalEntry(journals, users, activeUser);
                 break;
             case "2":
-                        // Request an appointment
+                schedule.BookAppointment(users);
                 break;
             case "3":
                         // View Schedule
