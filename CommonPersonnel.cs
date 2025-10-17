@@ -20,6 +20,7 @@ abstract class CommonPersonnel : IUser
         //Region = location.Region;
         //Location = location;
         Permissions = new Permission();
+        Permission.Permissions.Add(username, Permissions);  // to save permissions in save system
     }
 
     public bool TryLogin(string username, string password)
@@ -32,7 +33,7 @@ abstract class CommonPersonnel : IUser
         return role == Role;
     }
 
-        public override string ToString()
+    public override string ToString()
     {
         return Username;
     }

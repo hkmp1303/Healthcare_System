@@ -2,7 +2,20 @@ namespace HospitalApp;
 
 class Utilities
 {
-    // TODO requires Dictionary of users
+    // Convert user list to Dictionary of users
+    public static Dictionary<string, IUser> ConvertUserList(List<IUser> users)
+    {
+        Dictionary<string, IUser> userDict = new();
+        foreach (var user in users)
+        {
+            if (user.GetType().IsSubclassOf(typeof(CommonPersonnel)))
+                userDict.Add(((CommonPersonnel)user).Username, user);
+            else
+                userDict.Add(((Patient)user).Email, user);
+        }
+        return userDict;
+    }
+
     // select a user from unfiltered list, filter by role
     public static IUser PickUserFromList(Dictionary<string, IUser> users, Role? filterRole)
     {
@@ -24,8 +37,22 @@ class Utilities
             int selection = 0;
             if (!int.TryParse(Console.ReadLine(), out selection)) continue;
             if (availableUsers.Count < selection) continue; // check if selected users is valid
-            return availableUsers[selection-1]; // selected user
+            return availableUsers[selection - 1]; // selected user
         }
 
+    }
+    public static Dictionary<string, CommonPersonnel> FilterCommonPersonnel(Dictionary<string, IUser> users)
+    {
+        Dictionary<string, CommonPersonnel> commonPersonnel = new();
+        foreach (var user in users)
+        {
+            // sanity check object derived from abstract class
+            if (!user.GetType().IsSubclassOf(typeof(CommonPersonnel))) continue;
+            if (user.Value.IsRole(Role.Admin))
+                commonPersonnel.Add(user.Key, (Admin)user.Value);
+            if (user.Value.IsRole(Role.Personnel))
+                commonPersonnel.Add(user.Key, (Personnel)user.Value);
+        }
+        return commonPersonnel;
     }
 }

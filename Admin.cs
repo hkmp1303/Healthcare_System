@@ -1,5 +1,3 @@
-using System.Reflection.Metadata;
-
 namespace HospitalApp;
 
 /*
@@ -40,7 +38,7 @@ class Admin : CommonPersonnel
     }
     */
 
-    public void AddLocations()
+    public static void AddLocations()
     {
         Console.Clear();
         while (true)
@@ -52,7 +50,7 @@ class Admin : CommonPersonnel
         }
     }
 
-    public Personnel CreatePersonnelAccount()
+    public static Personnel CreatePersonnelAccount()
     {
         System.Console.Write("Enter the username of the new personnel account: ");
         string username = Console.ReadLine() ?? "";
