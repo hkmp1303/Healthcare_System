@@ -8,6 +8,13 @@ class JournalSystem
         Console.Clear();
         Console.WriteLine("Adding new journal entry:");
         Console.WriteLine(" ");
+        System.Console.WriteLine("Choose one of your own patients or seach for one:");
+        System.Console.WriteLine("[1] Your patients");
+        System.Console.WriteLine("[2] Browers patients");
+        string? AJEInput = Console.ReadLine();
+
+        if(AJEInput == "1")
+        {
         Console.WriteLine("Write the name of the patient you wish to make an entry for");
 
         string? PatientInput = Console.ReadLine();
@@ -65,7 +72,11 @@ class JournalSystem
         System.Console.WriteLine("text that it is finished"); //sanity check så att det gick ignom
         Console.ReadLine();
         
-    }
+    }    
+}
+        
+        
+        
     
     public void SeeJournalEntry(List<JournalEntry> journals, List<IUser> users, IUser? activeUser)
     {
