@@ -3,9 +3,11 @@ Duno saving = new();
 List<IUser> users = saving.LoadUsers();
 List<Patient> patients = new();
 IUser? activeUser = null;
+List<JournalEntry> journals = new();
 
 
 Schedule schedule = new();
+JournalSystem journalSystem = new();
 
 
 saving.CheckFile();
@@ -72,13 +74,13 @@ while (running)
         switch (Console.ReadLine())
         {
             case "1":
-                // View Journal
+            journalSystem.SeeJournalEntry(journals, users, activeUser);
                 break;
             case "2":
-                // Request an appointment
+                schedule.AppointmentRequest(activeUser);
                 break;
             case "3":
-                // View Schedule
+                schedule.PrintSchedulePatient(activeUser);
                 break;
             case "L":
                 if (activeUser != null)
@@ -102,28 +104,33 @@ while (running)
         System.Console.WriteLine("[4]. Modify appointments");
         System.Console.WriteLine("[5]. Approve appointment requests");
         System.Console.WriteLine("[6]. View locaction specific appointments");
+        System.Console.WriteLine("[7]. View own shcedule");
         System.Console.WriteLine("[L]. Log Out");
         System.Console.WriteLine("[Q]. Quit");
 
         switch (Console.ReadLine())
         {
             case "1":
-                // View patients Journal
+                journalSystem.SeeJournalEntry(journals, users, activeUser);
                 break;
             case "2":
-                // Make journal entries
+                journalSystem.AddJournalEntry(journals, users, activeUser);
                 break;
             case "3":
-                // Register appointments
+                schedule.BookAppointment(users);
                 break;
             case "4":
-                // Modify appointments
+                // modify appointments - inte gjord än
                 break;
             case "5":
                 // approve appointment requests
                 break;
             case "6":
-                // View location specific appointments
+                // View location specific appointments - inte gjord än
+                schedule.PrintSchedule();
+                break;
+            case "7":
+                schedule.PrintSchedulePersonnal(activeUser);
                 break;
             case "L":
                 if (activeUser != null)
@@ -150,8 +157,7 @@ while (running)
         System.Console.WriteLine("[7]. Allow admins to create personnel accounts");
         System.Console.WriteLine("[8]. View account-based permissions");
         System.Console.WriteLine("[9]. Allow an admin to view account-based permissions");
-        System.Console.WriteLine("[10]. Accept user registration as a patient");
-        System.Console.WriteLine("[11]. Deny user registration as a patient");
+        System.Console.WriteLine("[10]. Accept/Deny user registration as a patient");
         System.Console.WriteLine("[L]. Log Out");
         System.Console.WriteLine("[Q]. Quit");
 
@@ -160,34 +166,32 @@ while (running)
             case "1":
                 // Allow admins to handle permissions system -> in fine granularity 
                 break;
-
-
             case "3":
                 // Assign an admin to a region
                 break;
             case "4":
-                // Add a location (or two if you feel it :D)
+                Admin.AddLocations();
                 break;
             case "5":
-                // Allow an admin to add a location
+                // allow an admin to add location(s)
                 break;
             case "6":
-                // Create an account for a personnel -> so just convert a user to personnel I suppose
+                Admin.CreatePersonnelAccount();
                 break;
             case "7":
-                // Allow admins to create an account for personnel
+                IUser newUser = UserCreator.CreateUF();
+                users.Add(newUser);
+                saving.SaveUser(users);
+                Console.WriteLine("User saved!");
                 break;
             case "8":
                 // View role/account-based permission -> A list of who has permissions for what
                 break;
             case "9":
-                // Add admins to view the role/account-based permissions list
+                // Add admins to view the role/account-based permissions list -> for loop
                 break;
             case "10":
-                // Accept a user registration as a patient
-                break;
-            case "11":
-                // Deny a user registration as a patient
+                // Accept/Deny a user registration as a patient
                 break;
             case "L":
                 if (activeUser != null)
@@ -199,15 +203,6 @@ while (running)
             case "Q":
                 running = false;
                 break;
-            case "20000": //move this to where it's suppose to be!!!!!!!!!!11
-                IUser newUser = UserCreator.CreateUF();
-                users.Add(newUser);
-                saving.SaveUser(users);
-                Console.WriteLine("User saved!");
-
-                break;
-
-
         }
     }
 
