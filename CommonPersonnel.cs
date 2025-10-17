@@ -9,6 +9,7 @@ abstract class CommonPersonnel : IUser
     //public string Location;
     public Permission Permissions; // list of type Permission
 
+    // constructor
     public CommonPersonnel(string username, string password, Role role/*, Location location*/)
     {
         Username = username;
@@ -17,6 +18,7 @@ abstract class CommonPersonnel : IUser
         //Region = location.Region;
         //Location = location;
         Permissions = new Permission();
+        Permission.Permissions.Add(username, Permissions);  // to save permissions in save system
     }
 
     public bool TryLogin(string username, string password)

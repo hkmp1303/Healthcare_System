@@ -1,6 +1,8 @@
+using System.ComponentModel.Design;
+
 namespace HospitalApp;
-// As an admin, able to give permission to handle registrations, add locations,
-// create personnel accounts, view list of permissions
+// As an admin, give permission to handle registrations, add locations,
+// create personnel accounts and view list of permissions
 
 class Permission
 {
@@ -20,23 +22,56 @@ class Permission
     #endregion
 
     // Dictionary of Permissions
-    static Dictionary<string, Permission> Permissions = new();
+    public static Dictionary<string, Permission> Permissions = new();
 
-    //constructor
+
+    // empty constructor
     public Permission()
     {
-
     }
-    // static method to set permissions, paramerter (Admin)
-    public static void GivePermission(Admin admin)
+
+    // Admin constructor
+    public Permission(bool canRegisterPatients, bool canAddLocations, bool canCreatePersonnel, bool canViewPermissionsList, AdminToAdminPermission adminToAdminPermission)
     {
-
+        CanRegisterPatients = canRegisterPatients;
+        CanAddLocations = canAddLocations;
+        CanCreatePersonnel = canCreatePersonnel;
+        CanViewPermissionsList = canViewPermissionsList;
+        CanAssignAdminPermissions = adminToAdminPermission;
     }
+
+    // Personnel constructor
+    public Permission(bool canViewLocationSchedule, bool canHandleAppointments, bool canHandleJournalEntries, AdminToPersonnelPermission canAssignPersonnelPermissions)
+    {
+        CanViewLocationSchedule = canViewLocationSchedule;
+        CanHandleAppointments = canHandleAppointments;
+        CanHandleJournalEntries = canHandleJournalEntries;
+        CanAssignPersonnelPermissions = canAssignPersonnelPermissions;
+    }
+
+    // static accessor method to set Admin permissions
+    public static void EnablesAdminPermission(Admin admin, AdminToAdminPermission perm)
+    {
+        // bitwise OR new permission into current permissions
+        admin.Permissions.CanAssignAdminPermissions |= perm;
+    }
+
+    // static method to set Personnel permissions
+    public static void EnablesPersonnelPermission(Personnel personnel, AdminToPersonnelPermission perm)
+    {
+        personnel.Permissions.CanAssignPersonnelPermissions |= perm;
+    }
+
     // checking permissions
-    public static void CheckPermissions(CommonPersonnel commonPersonnel)
+    // permissions are public for now, place holder for locations and regions
+    public static void CheckPermissions(CommonPersonnel commonPersonnel, string permissionName)
     {
-        //(user.Permissions.CanAssignAdminRegions.Find)
+        switch (permissionName)
+        {
+
+        }
     }
+
     // this method should run after load file
     // sets Admin and Personnel permissions
     public static void AttachPermissionsToUsers(Dictionary<string, IUser> Users)
@@ -59,9 +94,46 @@ class Permission
             }
         }
     }
+
+    // Show permissions list, single user
+    public static void ViewPermissionsOf(CommonPersonnel user)
+    {
+        Console.Clear();
+        System.Console.WriteLine($"The user{user.Username} has the following permissions: ");
+        if (user.Permissions.CanAddLocations)
+            System.Console.WriteLine("Can add locations");
+        if (user.Permissions.CanCreatePersonnel)
+            System.Console.WriteLine("Can create Personnel accounts");
+        if (user.Permissions.CanViewPermissionsList)
+            System.Console.WriteLine("Can view the permissions list");
+        if ((user.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.AddLocations) > 0)
+            System.Console.WriteLine("Can assign Admin permission: Add locations ");
+        if ((user.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.RegisterPatients) > 0)
+            System.Console.WriteLine("Can assign Admin permission: Handle registration");
+        if ((user.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.CreatePersonnelAccounts) > 0)
+            System.Console.WriteLine("Can assign Admin permission: Create Personnel acounts");
+        if ((user.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.ViewPermissionsList) > 0)
+            // personnel
+            if (user.Permissions.CanViewLocationSchedule)
+                System.Console.WriteLine("Can view schedule by location");
+        if (user.Permissions.CanHandleAppointments)
+            System.Console.WriteLine("Can Handle Appointments");
+        if (user.Permissions.CanHandleJournalEntries)
+            System.Console.WriteLine("Can Assign level of Read Permission");
+        if ((user.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.HandleAppointments) > 0)
+            System.Console.WriteLine("Can assign Personnel permission: Handle Appointments");
+        if ((user.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewJournalEntries) > 0)
+            System.Console.WriteLine("Can assign Personnel permission: View Journal Entries");
+        if ((user.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.MarkPermissionLevel) > 0)
+            System.Console.WriteLine("Can assign Personnel permission: Assign level of Read Permission");
+        if ((user.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewLocationSchedule) > 0)
+            System.Console.WriteLine("Can assign Personnel permission: View schedule by location");
+        System.Console.WriteLine("Press enter to return to the previous menu");
+        System.Console.ReadLine();
+    }
 }
 
-// As admin, be able to assign or give permissions
+// As admin, be able to assign or give Admins permissions
 [Flags] // enables verbate representation when .ToString() is used
 public enum AdminToAdminPermission
 {
@@ -77,18 +149,8 @@ public enum AdminToPersonnelPermission
 {
     False, // can not, lacks permission
     ViewJournalEntries, // nonfalse, can or true
-    MarkPermissionLevel, // nonfalse: mark level of read permission
-    HandelAppointments = 4, // nonfalse: register, modify, approve
+    MarkPermissionLevel, // nonfalse: mark level of read permission of journal entries
+    HandleAppointments = 4, // nonfalse: register, modify, approve
     ViewLocationSchedule = 8, // nonfalse
 }
-
-/*
-TODO
-**return user from Utility to new method which checks permissions // filters by role, region, location, ect
-**return true or false depending on users access
-**may require multiple methods for each specific use case
-
-flexible list permissions - method in permissions, commonpersonnel wrapper method
-(calls permission method and varies parameters)
-*/
 
