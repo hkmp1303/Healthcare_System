@@ -42,5 +42,21 @@ public static class UserCreator
                     break;
             }
         }
+
+    }
+    public static IUser CreateUnreg()
+    {
+        while (true)
+        {
+            Console.Write("Email:");
+            string unregEmail = Console.ReadLine() ?? "";
+            Console.Write("Password:");
+            string unregPass = Console.ReadLine() ?? "";
+            return new UnregUser(unregEmail, unregPass);
+        }
+
+
+
+
     }
 }

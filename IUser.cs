@@ -12,6 +12,6 @@ public enum Role
     Patient,
     Admin,
     Personnel,
-
+    UnregUser,
 
 }
