@@ -20,7 +20,9 @@ while (running)
 
     if (activeUser == null)
     {
+        Console.Clear();
         System.Console.WriteLine("welcome to the start page");
+        System.Console.WriteLine(" ");
         System.Console.WriteLine("[1] Register");
         System.Console.WriteLine("[2]. Login");
         System.Console.WriteLine("[Q]. Quit");
@@ -58,13 +60,16 @@ while (running)
     }
     else if (activeUser!.IsRole(Role.UnregUser))
     {
+        Console.Clear();
         Console.WriteLine("you are unregisterd");
         Console.ReadKey();
         activeUser = null;
     }
     else if (activeUser!.IsRole(Role.Patient))
     {
+        Console.Clear();
         System.Console.WriteLine("Welcome patient, "); // Should say ("Welcome patient, " + Patient-Name)
+        System.Console.WriteLine(" ");
         System.Console.WriteLine("[1]. View Journal");
         System.Console.WriteLine("[2]. Request an appointment");
         System.Console.WriteLine("[3]. View schedule");
@@ -97,12 +102,14 @@ while (running)
 
     else if (activeUser!.IsRole(Role.Personnel))
     {
+        Console.Clear();
         System.Console.WriteLine("Welcome personnel, "); // Should say ("Welcome personnel, " + personnel-Name)
+        System.Console.WriteLine(" ");
         System.Console.WriteLine("[1]. View patients journal");
         System.Console.WriteLine("[2]. Make journal entries");
         System.Console.WriteLine("[3]. Register appointments");
         System.Console.WriteLine("[4]. Modify appointments");
-        System.Console.WriteLine("[5]. Approve appointment requests");
+        System.Console.WriteLine("[5]. View appointment requests"); //Approve
         System.Console.WriteLine("[6]. View locaction specific appointments");
         System.Console.WriteLine("[7]. View own shcedule");
         System.Console.WriteLine("[L]. Log Out");
@@ -124,6 +131,7 @@ while (running)
                 break;
             case "5":
                 // approve appointment requests
+                schedule.SeeAppointmentRequest();
                 break;
             case "6":
                 // View location specific appointments - inte gjord än
@@ -147,7 +155,9 @@ while (running)
 
     else if (activeUser!.IsRole(Role.Admin))
     {
+        Console.Clear();
         System.Console.WriteLine("Welcome admin,"); // Should say ("Welcome admin, " + Admin-Name)
+        System.Console.WriteLine(" ");
         System.Console.WriteLine("[1]. Add admins to handle permissions system");
         System.Console.WriteLine("[2]. Allow an admin to handle registrations");
         System.Console.WriteLine("[3]. Assign an admin to a region");
@@ -204,13 +214,6 @@ while (running)
                 running = false;
                 break;
         }
-    }
-
-    else
-    {
-        System.Console.WriteLine("welcome");
-        System.Console.WriteLine("You're logged in");
-
     }
 
 }

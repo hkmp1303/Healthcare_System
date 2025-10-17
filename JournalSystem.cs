@@ -5,17 +5,27 @@ class JournalSystem
 
     public void AddJournalEntry(List<JournalEntry> journals, List<IUser> users, IUser? activeUser)
     {
+        Console.Clear();
         Console.WriteLine("Adding new journal entry:");
         Console.WriteLine(" ");
         Console.WriteLine("Write the name of the patient you wish to make an entry for");
 
         string? PatientInput = Console.ReadLine();
+        if(PatientInput == null)
+        {
+            System.Console.WriteLine("Wrong input");
+            Console.ReadLine();
+            return;
+
+            
+        }
 
         Patient? patientuser = users.OfType<Patient>().FirstOrDefault(p => p.Email == PatientInput); // skapar först en variabel av typen Patient. kollar listan an användare, men klassen Patient, letar rätt på den första som har den emailen och gemför så att emailen är samma som input.
 
         if(patientuser == null) //om det är null
         {
-            System.Console.WriteLine("Something went wrong");
+            System.Console.WriteLine("Patient do not exist");
+            Console.ReadLine();
             return;
         }
 
@@ -25,6 +35,7 @@ class JournalSystem
         if(TextInput == null) //om null
         {
             System.Console.WriteLine("Something went wrong");
+            Console.ReadLine();
             return;
         }
         System.Console.WriteLine("You have succesfully entered the documentaion");
@@ -47,6 +58,7 @@ class JournalSystem
                 break;
             default:
                 System.Console.WriteLine("Something went wrong"); //om något annat skrevs in som inte är ett valt
+                Console.ReadLine();
                 break;
         }
 
@@ -59,6 +71,8 @@ class JournalSystem
     {
         if (activeUser!.IsRole(Role.Patient))
         {
+            Console.Clear();
+            System.Console.WriteLine($"Journal entries for {activeUser.ToString()}");
             foreach (JournalEntry je in journals)
             {
                 if (activeUser == je.Patient)
@@ -70,11 +84,13 @@ class JournalSystem
                     Console.WriteLine($"Writen: {je.dateTime}");
                 }
             }
+            Console.ReadLine();
         }
         else if (activeUser!.IsRole(Role.Personnel))
         {
+            Console.Clear();
             System.Console.WriteLine("Welcome to the Journal System:");
-            System.Console.WriteLine("[1] Search patients journal");
+            System.Console.WriteLine("[1] Search patient journal");
             System.Console.WriteLine("[2] Browers all entrys you have made");
             switch (Console.ReadLine())
             {
@@ -96,6 +112,7 @@ class JournalSystem
                             Console.WriteLine($"Writen: {je.dateTime}");
                         }
                     }
+                    Console.ReadLine();
 
                     break;
                 case "2":
@@ -114,7 +131,11 @@ class JournalSystem
                             }
                         }
                     }
-                break;
+                    Console.ReadLine();
+                    break;
+                default:
+                System.Console.WriteLine("Something went wrong.");
+                    break;
             }
         }
         else
