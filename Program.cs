@@ -79,7 +79,7 @@ while (running)
         switch (Console.ReadLine())
         {
             case "1":
-            journalSystem.SeeJournalEntry(journals, users, activeUser);
+                journalSystem.SeeJournalEntry(journals, users, activeUser);
                 break;
             case "2":
                 schedule.AppointmentRequest(activeUser);
@@ -201,7 +201,7 @@ while (running)
                 // Add admins to view the role/account-based permissions list -> for loop
                 break;
             case "10":
-                // Accept/Deny a user registration as a patient
+                UnregToPatient.PromoteUnregToPatient(users, saving);
                 break;
             case "L":
                 if (activeUser != null)
