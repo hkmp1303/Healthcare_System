@@ -1,7 +1,7 @@
 namespace HospitalApp;
 
 /*
-DFN assign personnel to regions
+assign personnel to regions
 add locations
 accept user registration as a patient
 deny user registration as a patient
@@ -23,20 +23,23 @@ class Admin : CommonPersonnel
 
     }
 
-    /*
+
     // Assign personnel users to a region
     // Requires static List<Region> in Region Class
     public void AssignPersonelToRegion(Personnel user)
     {
         while (true)
         {
-        TODO Menu
-            Region region = Region.PickRegionFromList(); // call static method, pick region
-            region.AssignedUsers.Add(user);  // add user to region user list
-            user.Region = region; // assign region to personnel user
+        Console.Clear();
+        System.Console.Write("Enter the Region you wish to assign: ");
+
+        //Region region = Region.PickRegionFromList(); // call static method, pick region
+        System.Console.WriteLine("${Region} has been assigned to user {user}");
+        //region.AssignedUsers.Add(user);  // add user to region user list
+        //user.Region = region; // assign region to personnel user
         }
     }
-    */
+
 
     public static void AddLocations()
     {
@@ -48,6 +51,46 @@ class Admin : CommonPersonnel
             if (locationName == "") continue; // check for empty input, restart while loop
             //Location.AddLocation(locationName);
         }
+    }
+
+    // handle patient registration requests
+    public void HandlePatientRegistration(List<IUser> users)
+    {
+        System.Console.WriteLine("Patient Registration Request(s)");
+        // calling Utilites to filter users
+        Dictionary<string, IUser> dictUsers = Utilities.FilterUsersByRole(Utilities.ConvertUserList(users), Role.PatientRegRequested);
+        if (dictUsers.Count == 0)
+        {
+            System.Console.WriteLine("There are no users requesting patient registration./nPress [Enter] to return to the Admin menu");
+            Console.ReadLine();
+            return;
+        }
+        // pick user from Unregistered users requesting patient registration
+        UnregUser selectedUser = (UnregUser)Utilities.PickUserFromList(dictUsers, null);
+        while (true)
+        {
+            // calling PrintLine method, printing registration menu
+            Utilities.PrintLines(new[] { $"User requesting patient registration: {selectedUser.Username}",
+                "[a] approve patient registration request",
+                "[d] deny patient registration request",
+                "[enter] to return to the Admin menu"
+            });
+            switch (Console.ReadLine() ?? "")
+            {
+                case "a": // approve registration, convert UnregUser to Patient
+                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is approved.");
+                    users.Add(new Patient(selectedUser)); // add new Patient user
+                    users.Remove(selectedUser); // remove Unregistered user
+                    return;
+                case "d": // deny registration, convert PatientRegRequested to Patient
+                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is denied.");
+                    selectedUser.Role = Role.UnregUser;
+                    return;
+                default: // Admin menu
+                    return;
+            }
+        }
+
     }
 
     public static Personnel CreatePersonnelAccount()
@@ -64,6 +107,21 @@ class Admin : CommonPersonnel
         // TODO Menu
         while (true)
         {
+            List<string> menu = new();
+            menu.Add($"Welcome {activeUser.Username}!/nAdmin Menu/n");
+            menu.Add("[a] ");
+            menu.Add("");
+            menu.Add("");
+            menu.Add("");
+            Utilities.PrintLines(menu);
+            string selection = Console.ReadLine() ?? "";
+            switch (selection)
+            {
+                case "a":
+
+                break;
+            }
+            Console.Clear();
 
         }
     }

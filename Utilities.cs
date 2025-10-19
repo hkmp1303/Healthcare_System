@@ -2,7 +2,7 @@ namespace HospitalApp;
 
 class Utilities
 {
-    // Convert user list to Dictionary of users
+    // Convert user list to Dictionary of all users
     public static Dictionary<string, IUser> ConvertUserList(List<IUser> users)
     {
         Dictionary<string, IUser> userDict = new();
@@ -33,14 +33,30 @@ class Utilities
                     System.Console.WriteLine($"[{++i}]. {user.Key}"); // print filtered user to console
                 }
             }
-            System.Console.Write("Choice: ");
+            System.Console.Write("Selected User: ");
             int selection = 0;
             if (!int.TryParse(Console.ReadLine(), out selection)) continue;
             if (availableUsers.Count < selection) continue; // check if selected users is valid
             return availableUsers[selection - 1]; // selected user
         }
-
     }
+
+    // filter dictionary of users based on role
+    public static Dictionary<string, IUser> FilterUsersByRole(Dictionary<string, IUser> users, Role filterRole)
+    {
+        List<IUser> availableUsers = new(users.Count); // list to pick from
+        foreach (var user in users) // loops through users
+        {
+            // filter by role
+            if (user.Value.IsRole((Role)filterRole))
+            {
+                availableUsers.Add(user.Value); // Add user to pick list
+            }
+        }
+        return ConvertUserList(availableUsers);
+    }
+
+    // filter out patients from users
     public static Dictionary<string, CommonPersonnel> FilterCommonPersonnel(Dictionary<string, IUser> users)
     {
         Dictionary<string, CommonPersonnel> commonPersonnel = new();
@@ -54,5 +70,15 @@ class Utilities
                 commonPersonnel.Add(user.Key, (Personnel)user.Value);
         }
         return commonPersonnel;
+    }
+
+    // print menu
+    public static void PrintLines(IEnumerable<string> lines)
+    {
+        foreach (string line in lines)
+        {
+            //System.Console.WriteLine($"[{character}]"+line);
+            System.Console.WriteLine(line);
+        }
     }
 }

@@ -114,8 +114,8 @@ class Permission
             System.Console.WriteLine("Can assign Admin permission: Create Personnel acounts");
         if ((user.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.ViewPermissionsList) > 0)
             // personnel
-            if (user.Permissions.CanViewLocationSchedule)
-                System.Console.WriteLine("Can view schedule by location");
+        if (user.Permissions.CanViewLocationSchedule)
+            System.Console.WriteLine("Can view schedule by location");
         if (user.Permissions.CanHandleAppointments)
             System.Console.WriteLine("Can Handle Appointments");
         if (user.Permissions.CanHandleJournalEntries)
