@@ -35,7 +35,7 @@ public static class UnregToPatient
             users.Add(newPatient);
         }
 
-        // Spara hela listan med din Duno-klass
+        // Spara hela listan med Duno-klass
         saving.SaveUser(users);
 
         Console.WriteLine($"Användaren med email {email} är nu patient!");
