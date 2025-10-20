@@ -7,11 +7,6 @@ class Personnel : CommonPersonnel
     {
     }
 
-    public Role GetRole()
-    {
-        return Role.Personnel;
-    }
-
     public override string ToString()
     {
         return Username;

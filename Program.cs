@@ -1,6 +1,8 @@
 ﻿using HospitalApp;
 Duno saving = new();
 List<IUser> users = saving.LoadUsers();
+//saving.LoadPermissions(); // Permission.Permissions -contains all permissions for saving
+Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
 List<Patient> patients = new();
 IUser? activeUser = null;
 List<JournalEntry> journals = new();
@@ -79,7 +81,7 @@ while (running)
         switch (Console.ReadLine())
         {
             case "1":
-            journalSystem.SeeJournalEntry(journals, users, activeUser);
+                journalSystem.SeeJournalEntry(journals, users, activeUser);
                 break;
             case "2":
                 schedule.AppointmentRequest(activeUser);
@@ -103,8 +105,7 @@ while (running)
     else if (activeUser!.IsRole(Role.Personnel))
     {
         Console.Clear();
-        System.Console.WriteLine("Welcome personnel, "); // Should say ("Welcome personnel, " + personnel-Name)
-        System.Console.WriteLine(" ");
+        System.Console.WriteLine($"Welcome {((Personnel)activeUser).Username}\nPersonnel Menu\n");
         System.Console.WriteLine("[1]. View patients journal");
         System.Console.WriteLine("[2]. Make journal entries");
         System.Console.WriteLine("[3]. Register appointments");
@@ -155,65 +156,22 @@ while (running)
 
     else if (activeUser!.IsRole(Role.Admin))
     {
-        Console.Clear();
-        System.Console.WriteLine("Welcome admin,"); // Should say ("Welcome admin, " + Admin-Name)
-        System.Console.WriteLine(" ");
-        System.Console.WriteLine("[1]. Add admins to handle permissions system");
-        System.Console.WriteLine("[2]. Allow an admin to handle registrations");
-        System.Console.WriteLine("[3]. Assign an admin to a region");
-        System.Console.WriteLine("[4]. Add location(s)");
-        System.Console.WriteLine("[5]. Allow an admin to add location(s)");
-        System.Console.WriteLine("[6]. Create personnel account");
-        System.Console.WriteLine("[7]. Allow admins to create personnel accounts");
-        System.Console.WriteLine("[8]. View account-based permissions");
-        System.Console.WriteLine("[9]. Allow an admin to view account-based permissions");
-        System.Console.WriteLine("[10]. Accept/Deny user registration as a patient");
-        System.Console.WriteLine("[L]. Log Out");
-        System.Console.WriteLine("[Q]. Quit");
-
-        switch (Console.ReadLine())
+        bool? run = ((Admin)activeUser).ShowAdminMenu(users);
+        if (run == null) // null meaning logout
         {
-            case "1":
-                // Allow admins to handle permissions system -> in fine granularity 
-                break;
-            case "3":
-                // Assign an admin to a region
-                break;
-            case "4":
-                Admin.AddLocations();
-                break;
-            case "5":
-                // allow an admin to add location(s)
-                break;
-            case "6":
-                Admin.CreatePersonnelAccount();
-                break;
-            case "7":
-                IUser newUser = UserCreator.CreateUF();
-                users.Add(newUser);
-                saving.SaveUser(users);
-                Console.WriteLine("User saved!");
-                break;
-            case "8":
-                // View role/account-based permission -> A list of who has permissions for what
-                break;
-            case "9":
-                // Add admins to view the role/account-based permissions list -> for loop
-                break;
-            case "10":
-                // Accept/Deny a user registration as a patient
-                break;
-            case "L":
-                if (activeUser != null)
-                {
-                    activeUser = null;
-                    Console.WriteLine("Succesfully logged out");
-                }
-                break;
-            case "Q":
-                running = false;
-                break;
+            activeUser = null;
+        }
+        else
+        {
+            if (run == false)
+            {
+                Console.Clear();
+                System.Console.WriteLine("Goodbye");
+            }
+            running = (bool)run; // Exit program from ShowAdminMenu user input
         }
     }
-
 }
+
+// save all users when exiting the program
+saving.SaveUser(users);
