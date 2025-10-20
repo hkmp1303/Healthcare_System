@@ -143,10 +143,18 @@ class Schedule
 
 
         string? selectInputDay = Console.ReadLine();
+        if(selectInputDay == null || selectInputDay == "")
+        {
+            System.Console.WriteLine("Something went wrong.");
+        }
         int.TryParse(selectInputDay, out int selectInputDayint);
         System.Console.WriteLine("Select the time:");
         System.Console.WriteLine("Write the hour");
         string? selectedInputTime = Console.ReadLine();
+        if(selectedInputTime == null || selectedInputTime == "")
+        {
+            System.Console.WriteLine("Something went wrong.");
+        }
         int.TryParse(selectedInputTime, out int selectedInputTimeint);
         int NewselectedInputTimeint = 0;
         selectedInputTimeint = NewselectedInputTimeint - 8;
@@ -241,10 +249,18 @@ class Schedule
 
         System.Console.WriteLine("Select new day you would like to change to:");
         string? selectnewDay = Console.ReadLine();
+        if(selectnewDay == null || selectnewDay == "")
+        {
+            System.Console.WriteLine("Something went wrong.");
+        }
         int.TryParse(selectnewDay, out int selectnewDayint);
         System.Console.WriteLine("Select time");
         System.Console.WriteLine("Write the hour");
         string? selectednewTime = Console.ReadLine();
+        if(selectednewTime == null || selectednewTime == "")
+        {
+            System.Console.WriteLine("Something went wrong.");
+        }
         int.TryParse(selectednewTime, out int selectednewTimeint);
         int NewselectednewTimeint = 0;
         selectednewTimeint = NewselectednewTimeint - 8;
@@ -291,6 +307,10 @@ class Schedule
                 System.Console.WriteLine(" ");
                 System.Console.WriteLine("Select the booking request you would like to handle:");
                 string? requestSelectedInput = Console.ReadLine();
+                if(requestSelectedInput == null || requestSelectedInput == "")
+                {
+                    System.Console.WriteLine("Something went wrong");
+                }
                 int.TryParse(requestSelectedInput, out int requestedInt);
                 System.Console.WriteLine($"You have selected: {AppointmentRequests![requestedInt].PatientName}");
 
@@ -319,7 +339,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number to select time");
                         string? selectedTimeInputMON = Console.ReadLine();
-
+                        if(selectedTimeInputMON == null || selectedTimeInputMON == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
                         System.Console.WriteLine("Available doctors:");
                         for (int i = 0; i < doctorList.Count; i++)
                         {
@@ -331,8 +354,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number of the doctor to assign the patient");
                         string? selectedDocInputMon = Console.ReadLine();
-
-
+                        if(selectedDocInputMon == null || selectedDocInputMon == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
                         if (int.TryParse(selectedTimeInputMON, out int selectedTimeMON) && int.TryParse(selectedDocInputMon, out int selectedDocMon))
                         {
                             if (selectedTimeMON >= 0 && selectedTimeMON <= 6 && WeekSchedule[Monint, selectedTimeMON] == (OpenSlot, " "))
@@ -357,7 +382,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number to select time");
                         string? selectedTimeInputTU = Console.ReadLine();
-
+                        if(selectedTimeInputTU == null || selectedTimeInputTU == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
                         System.Console.WriteLine("Available doctors:");
                         for (int i = 0; i < doctorList.Count; i++)
                         {
@@ -369,7 +397,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number of the doctor to assign the patient");
                         string? selectedDocInputTU = Console.ReadLine();
-
+                        if(selectedDocInputTU == null || selectedDocInputTU == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
 
                         if (int.TryParse(selectedTimeInputTU, out int selectedTimeTU) && int.TryParse(selectedDocInputTU, out int selectedDocTU))
                         {
@@ -394,7 +425,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number to select time");
                         string? selectedTimeInputWED = Console.ReadLine();
-
+                        if(selectedTimeInputWED == null || selectedTimeInputWED == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
                         System.Console.WriteLine("Available doctors:");
                         for (int i = 0; i < doctorList.Count; i++)
                         {
@@ -406,7 +440,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number of the doctor to assign the patient");
                         string? selectedDocInputWED = Console.ReadLine();
-
+                        if(selectedDocInputWED == null || selectedDocInputWED == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
 
                         if (int.TryParse(selectedTimeInputWED, out int selectedTimeWED) && int.TryParse(selectedDocInputWED, out int selectedDocWED))
                         {
@@ -431,7 +468,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number to select time");
                         string? selectedTimeInputTH = Console.ReadLine();
-
+                        if(selectedTimeInputTH == null || selectedTimeInputTH == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
                         System.Console.WriteLine("Available doctors:");
                         for (int i = 0; i < doctorList.Count; i++)
                         {
@@ -443,7 +483,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number of the doctor to assign the patient");
                         string? selectedDocInputTH = Console.ReadLine();
-
+                        if(selectedDocInputTH == null || selectedDocInputTH == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
 
                         if (int.TryParse(selectedTimeInputTH, out int selectedTimeTH) && int.TryParse(selectedDocInputTH, out int selectedDocTH))
                         {
@@ -468,7 +511,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number to select time");
                         string? selectedTimeInputFR = Console.ReadLine();
-
+                        if(selectedTimeInputFR == null || selectedTimeInputFR == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
                         System.Console.WriteLine("Available doctors:");
                         for (int i = 0; i < doctorList.Count; i++)
                         {
@@ -480,7 +526,10 @@ class Schedule
                         }
                         System.Console.WriteLine("Write the number of the doctor to assign the patient");
                         string? selectedDocInputFR = Console.ReadLine();
-
+                        if(selectedDocInputFR == null || selectedDocInputFR == "")
+                        {
+                            System.Console.WriteLine("Something went wrong");
+                        }
 
                         if (int.TryParse(selectedTimeInputFR, out int selectedTimeFR) && int.TryParse(selectedDocInputFR, out int selectedDocFR))
                         {
@@ -660,7 +709,6 @@ class Schedule
         Console.ReadLine();
 
         AppointmentRequests.Add((activeUser!.ToString() ?? "", DescCond, PaitentWaitingStatus.Pending));
-        //AppointmentRequests.Add($"Paitent: {activeUser!.ToString()} request an appointment. description of condition: {DescCond}");
     }
     public void SeeAppointmentRequest()
     {
