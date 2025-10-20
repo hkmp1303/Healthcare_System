@@ -111,8 +111,8 @@ while (running)
         System.Console.WriteLine("[3]. Register appointments");
         System.Console.WriteLine("[4]. Modify appointments");
         System.Console.WriteLine("[5]. View appointment requests"); //Approve
-        System.Console.WriteLine("[6]. View locaction specific appointments");
-        System.Console.WriteLine("[7]. View own shcedule");
+        System.Console.WriteLine("[6]. View Staff schedule");
+        System.Console.WriteLine("[7]. View own schedule");
         System.Console.WriteLine("[L]. Log Out");
         System.Console.WriteLine("[Q]. Quit");
 
