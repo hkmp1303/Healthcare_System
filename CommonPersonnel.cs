@@ -1,3 +1,5 @@
+using System.Security;
+
 namespace HospitalApp;
 
 abstract class CommonPersonnel : IUser
@@ -7,7 +9,7 @@ abstract class CommonPersonnel : IUser
     public Role Role;
     //public string Region;
     //public string Location;
-    public Permission Permissions; // list of type Permission
+    public Permission Permissions; // list of Permissions
 
     // constructor
     public CommonPersonnel(string username, string password, Role role/*, Location location*/)
@@ -29,6 +31,10 @@ abstract class CommonPersonnel : IUser
     public bool IsRole(Role role)
     {
         return role == Role;
+    }
+    public Role GetRole()
+    {
+        return Role;
     }
 
     public override string ToString()

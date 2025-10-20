@@ -43,6 +43,7 @@ Lastly, producing the minimal viable product (MVP) was emphasized as a key decis
 <!--
 ### Future feature creeps
 - [ ] implement dictionary for user accounts
+- [ ] Approve/deny registration requests without exiting registration menu
 -->
 
 ## 🚀 How to Run
