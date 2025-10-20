@@ -128,7 +128,7 @@ while (running)
                 schedule.BookAppointment(users);
                 break;
             case "4":
-                // modify appointments - inte gjord än
+            schedule.MoveAppointment();
                 break;
             case "5":
                 // approve appointment requests
