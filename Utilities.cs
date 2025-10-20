@@ -10,8 +10,8 @@ class Utilities
         {
             if (user.GetType().IsSubclassOf(typeof(CommonPersonnel)))
                 userDict.Add(((CommonPersonnel)user).Username, user);
-            else
-                userDict.Add(((Patient)user).Email, user);
+            else if (user is Patient || user is UnregUser)
+                userDict.Add(((UnregUser)user).Email, user);
         }
         return userDict;
     }
@@ -26,8 +26,8 @@ class Utilities
             int i = 0;
             foreach (var user in users) // loops through users
             {
-                // filter by role, filter can be null
-                if (filterRole == null || user.Value.IsRole((Role)filterRole))
+                // filter by role, filter can be null, can filter multiple roles
+                if (filterRole == null || (user.Value.GetRole() & filterRole) > 0)
                 {
                     availableUsers.Add(user.Value); // Add user to pick list
                     System.Console.WriteLine($"[{++i}]. {user.Key}"); // print filtered user to console
@@ -80,5 +80,18 @@ class Utilities
             //System.Console.WriteLine($"[{character}]"+line);
             System.Console.WriteLine(line);
         }
+    }
+
+    // generate random password
+    public static string GeneratePassword(int passLength)
+    {
+        string newPassword = "";
+        Random rnd = new Random();
+        string validChar = "abcdefghijklmnopqrstuvwxyz0123456789";
+        for (int i = 0; i < passLength; i++)
+        {
+            newPassword += validChar[rnd.Next(0, validChar.Length - 1)];
+        }
+        return newPassword;
     }
 }

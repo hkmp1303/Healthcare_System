@@ -32,6 +32,10 @@ abstract class CommonPersonnel : IUser
     {
         return role == Role;
     }
+    public Role GetRole()
+    {
+        return Role;
+    }
 
     public override string ToString()
     {

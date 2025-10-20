@@ -29,6 +29,11 @@ class UnregUser : IUser
         return role == Role;
     }
 
+    public Role GetRole()
+    {
+        return Role;
+    }
+
     public bool TryLogin(string username, string password)
     {
         return username == Email && password == Password;
