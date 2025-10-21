@@ -3,31 +3,31 @@ using System.ComponentModel;
 
 namespace HospitalApp;
 
-class Schedule
+class Schedule //class for schedule
 {
-    public const int Days = 5;
-    public const int Slots = 7;
+    public const int Days = 5; //int for days
+    public const int Slots = 7; //int for all available slot 
 
-    public (string patientslot, string doctorslot)[,] WeekSchedule = new (string patientslot, string doctorslot)[Days, Slots];
+    public (string patientslot, string doctorslot)[,] WeekSchedule = new (string patientslot, string doctorslot)[Days, Slots]; //tuple array. used to keep 2 string in one place. 
 
-    public List<(String PatientName, string PatDesc, PaitentWaitingStatus status)> AppointmentRequests = new();
-    public (string PatientName, string PatDesc, PaitentWaitingStatus Status) patiensInSystem = (PatientName: "", PatDesc: "", PaitentWaitingStatus.Pending);
+    public List<(String PatientName, string PatDesc, PaitentWaitingStatus status)> AppointmentRequests = new(); //list to keep track of paient in what is waiting on appointment
+    public (string PatientName, string PatDesc, PaitentWaitingStatus Status) patiensInSystem = (PatientName: "", PatDesc: "", PaitentWaitingStatus.Pending); //tuple string to keep patient and description in one place
 
-    public enum PaitentWaitingStatus
+    public enum PaitentWaitingStatus //enum for patient waiting 
     {
         Pending,
         Approved,
         Denied,
     }
 
-    public string Lunch = "Lunch";
-    public string OpenSlot = "Open Slot";
+    public string Lunch = "Lunch"; //string
+    public string OpenSlot = "Open Slot"; //string
 
-    DayOfWeek WeekDay = DateTime.Today.DayOfWeek;
+    DayOfWeek WeekDay = DateTime.Today.DayOfWeek; //variable to be able to use real-time time
 
     public Schedule()
     {
-        FilledNullOnSchedule();
+        FilledNullOnSchedule(); // to fill the schedule with OpenSlot and Lunch
     }
 
     public void FilledNullOnSchedule()
@@ -50,7 +50,7 @@ class Schedule
         }
     }
     
-    public void MoveAppointment()
+    public void MoveAppointment() //method to be able to move appointments
     {
         Console.Clear();
         System.Console.WriteLine("Select the day of the patient you'd wish to re-schedule");
@@ -59,25 +59,25 @@ class Schedule
         System.Console.WriteLine("[1] Tuesday");
         System.Console.WriteLine("[2] Wednesday");
         System.Console.WriteLine("[3] Thursday");
-        System.Console.WriteLine("[4] Friday");
+        System.Console.WriteLine("[4] Friday"); // choices
         
         System.Console.WriteLine("Monday:");
-        for (int i = 0; i < WeekSchedule.GetLength(0); i++)
+        for (int i = 0; i < WeekSchedule.GetLength(0); i++) //loop out the week schedule
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
             {
-                if (i == 0)
+                if (i == 0) // if it's the first colum in the array
                 {
-                    if (WeekSchedule[i, j].patientslot != OpenSlot && WeekSchedule[i, j].patientslot != Lunch)
+                    if (WeekSchedule[i, j].patientslot != OpenSlot && WeekSchedule[i, j].patientslot != Lunch) // if it's not an openslot or lunch
                     {
-                        System.Console.WriteLine($"Time: {j + 8}:00 {WeekSchedule[i, j].patientslot} {WeekSchedule[i, j].doctorslot} ");
+                        System.Console.WriteLine($"Time: {j + 8}:00 {WeekSchedule[i, j].patientslot} {WeekSchedule[i, j].doctorslot} "); //print patient
                     }
                 }
 
             }
         }
         
-        System.Console.WriteLine("Tuesday:");
+        System.Console.WriteLine("Tuesday:"); //same as the loop before
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -93,7 +93,7 @@ class Schedule
             }
         }
         
-        System.Console.WriteLine("Wednesday:");
+        System.Console.WriteLine("Wednesday:"); //same as the loop before
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -109,7 +109,7 @@ class Schedule
             }
         }
         
-        System.Console.WriteLine("Thursday:");
+        System.Console.WriteLine("Thursday:"); //same as the loop before
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -125,7 +125,7 @@ class Schedule
             }
         }
         
-        System.Console.WriteLine("Friday:");
+        System.Console.WriteLine("Friday:"); //same as the loop before
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -156,8 +156,7 @@ class Schedule
             System.Console.WriteLine("Something went wrong.");
         }
         int.TryParse(selectedInputTime, out int selectedInputTimeint);
-        int NewselectedInputTimeint = 0;
-        selectedInputTimeint = NewselectedInputTimeint - 8;
+
 
         Console.Clear();
         System.Console.WriteLine("Available appointment slots:");
@@ -167,7 +166,7 @@ class Schedule
         System.Console.WriteLine("[3] Thursday");
         System.Console.WriteLine("[4] Friday");
         System.Console.WriteLine(" ");
-        System.Console.WriteLine(("Monday"));
+        System.Console.WriteLine("Monday [0]");
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -183,7 +182,7 @@ class Schedule
             }
         }
         
-                System.Console.WriteLine(("Tuesday"));
+                System.Console.WriteLine("Tuesday [1]");
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -199,7 +198,7 @@ class Schedule
             }
         }
         
-                System.Console.WriteLine(("Wednesday"));
+                System.Console.WriteLine("Wednesday [2]");
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -215,7 +214,7 @@ class Schedule
             }
         }
         
-                System.Console.WriteLine(("Thursday"));
+                System.Console.WriteLine("Thursday [3]");
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -231,7 +230,7 @@ class Schedule
             }
         }
         
-                System.Console.WriteLine(("Friday"));
+                System.Console.WriteLine("Friday [4]");
         for (int i = 0; i < WeekSchedule.GetLength(0); i++)
         {
             for (int j = 0; j < WeekSchedule.GetLength(1); j++)
@@ -262,10 +261,10 @@ class Schedule
             System.Console.WriteLine("Something went wrong.");
         }
         int.TryParse(selectednewTime, out int selectednewTimeint);
-        int NewselectednewTimeint = 0;
-        selectednewTimeint = NewselectednewTimeint - 8;
 
-        WeekSchedule[selectnewDayint, NewselectednewTimeint] = WeekSchedule[selectInputDayint, NewselectedInputTimeint];
+
+        WeekSchedule[selectnewDayint, selectednewTimeint - 8] = WeekSchedule[selectInputDayint, selectedInputTimeint - 8];
+        WeekSchedule[selectInputDayint, selectedInputTimeint -8] = (OpenSlot, " ");
 
         System.Console.WriteLine($"Time is now changed");
         Console.ReadLine();
@@ -374,7 +373,7 @@ class Schedule
                         {
                             if (WeekSchedule[Monint, i] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
+                                System.Console.WriteLine($"[{i}] Open time: {i + 8}:00");
                             }
                         }
                         System.Console.WriteLine("Write the number to select time");
@@ -388,7 +387,7 @@ class Schedule
                         {
                             if (WeekSchedule[Monint, int.Parse(selectedTimeInputMON!)] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: {doctorList[i].Username}");
+                                System.Console.WriteLine($"[{i}] {doctorList[i].Username}");
                             }
 
                         }
@@ -417,7 +416,7 @@ class Schedule
                         {
                             if (WeekSchedule[Tuesint, i] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
+                                System.Console.WriteLine($"[{i}] Open time: {i + 8}:00");
                             }
                         }
                         System.Console.WriteLine("Write the number to select time");
@@ -431,7 +430,7 @@ class Schedule
                         {
                             if (WeekSchedule[Tuesint, int.Parse(selectedTimeInputTU!)] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: {doctorList[i].Username}");
+                                System.Console.WriteLine($"[{i}] {doctorList[i].Username}");
                             }
 
                         }
@@ -460,7 +459,7 @@ class Schedule
                         {
                             if (WeekSchedule[Wedint, i] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
+                                System.Console.WriteLine($"[{i}] Open time: {i + 8}:00");
                             }
                         }
                         System.Console.WriteLine("Write the number to select time");
@@ -474,7 +473,7 @@ class Schedule
                         {
                             if (WeekSchedule[Wedint, int.Parse(selectedTimeInputWED!)] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: {doctorList[i].Username}");
+                                System.Console.WriteLine($"[{i}] {doctorList[i].Username}");
                             }
 
                         }
@@ -503,7 +502,7 @@ class Schedule
                         {
                             if (WeekSchedule[Thurint, i] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
+                                System.Console.WriteLine($"[{i}] Open time: {i + 8}:00");
                             }
                         }
                         System.Console.WriteLine("Write the number to select time");
@@ -517,7 +516,7 @@ class Schedule
                         {
                             if (WeekSchedule[Thurint, int.Parse(selectedTimeInputTH!)] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: {doctorList[i].Username}");
+                                System.Console.WriteLine($"[{i}] {doctorList[i].Username}");
                             }
 
                         }
@@ -546,7 +545,7 @@ class Schedule
                         {
                             if (WeekSchedule[Friint, i] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: Open time: {i + 8}:00");
+                                System.Console.WriteLine($"[{i}] Open time: {i + 8}:00");
                             }
                         }
                         System.Console.WriteLine("Write the number to select time");
@@ -560,7 +559,7 @@ class Schedule
                         {
                             if (WeekSchedule[Friint, int.Parse(selectedTimeInputFR!)] == (OpenSlot, " "))
                             {
-                                System.Console.WriteLine($"{i}: {doctorList[i].Username}");
+                                System.Console.WriteLine($"[{i}] {doctorList[i].Username}");
                             }
 
                         }
