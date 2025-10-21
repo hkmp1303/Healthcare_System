@@ -74,7 +74,7 @@ while (running)
         System.Console.WriteLine(" ");
         System.Console.WriteLine("[1]. View Journal");
         System.Console.WriteLine("[2]. Request an appointment");
-        System.Console.WriteLine("[3]. View schedule");
+        System.Console.WriteLine("[3]. View scheduled appointments");
         System.Console.WriteLine("[L]. Log Out");
         System.Console.WriteLine("[Q]. Quit");
 
@@ -106,6 +106,8 @@ while (running)
     {
         Console.Clear();
         System.Console.WriteLine($"Welcome {((Personnel)activeUser).Username}\nPersonnel Menu\n");
+        schedule.Notifications();
+        System.Console.WriteLine(" ");
         System.Console.WriteLine("[1]. View patients journal");
         System.Console.WriteLine("[2]. Make journal entries");
         System.Console.WriteLine("[3]. Register appointments");
