@@ -800,9 +800,9 @@ class Schedule
         int waitCount = 0;
         int approvedCount = 0;
 
-        foreach (var patient in AppointmentRequests)
+        foreach (var patientrequest in AppointmentRequests)
         {
-            if (patient.status == PaitentWaitingStatus.Pending)
+            if (patientrequest.status == PaitentWaitingStatus.Pending)
             {
                 waitCount += 1;
             }
