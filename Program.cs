@@ -5,11 +5,12 @@ List<IUser> users = saving.LoadUsers();
 Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
 List<Patient> patients = new();
 IUser? activeUser = null;
-List<JournalEntry> journals = new();
-
+JournalSystem journalSystem = new();
+HospitalApp.JournalStorage journalStorage = new();
+List<JournalEntry> journals = journalStorage.LoadJournals(users);
 
 Schedule schedule = new();
-JournalSystem journalSystem = new();
+
 
 
 saving.CheckFile();
@@ -128,7 +129,7 @@ while (running)
                 schedule.BookAppointment(users);
                 break;
             case "4":
-            schedule.MoveAppointment();
+                schedule.MoveAppointment();
                 break;
             case "5":
                 // approve appointment requests
@@ -175,3 +176,4 @@ while (running)
 
 // save all users when exiting the program
 saving.SaveUser(users);
+journalStorage.SaveJournals(journals);

@@ -1,6 +1,6 @@
 namespace HospitalApp;
 
-class JournalEntry
+public class JournalEntry
 {
     public IUser Patient;    //testa detta annars får vi gå in och ändra i IUser till Username{get; set;} eller lägga till ett ID som vi kan ha som referens material!!!!
     public IUser Personnel;
@@ -8,7 +8,7 @@ class JournalEntry
     public DateTime dateTime;
     public ReadPermisson readPermisson; //read permissions?
 
-    public JournalEntry(Patient patient, IUser personnel, string text, ReadPermisson readPerm)
+    public JournalEntry(IUser patient, IUser personnel, string text, ReadPermisson readPerm)
     {
         Patient = patient;
         Personnel = personnel;
