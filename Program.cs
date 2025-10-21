@@ -124,7 +124,7 @@ while (running)
                 journalSystem.SeeJournalEntry(journals, users, activeUser);
                 break;
             case "2":
-                journalSystem.AddJournalEntry(journals, users, activeUser);
+                journalSystem.AddJournalEntry(journals, users, activeUser, schedule.WeekSchedule);
                 break;
             case "3":
                 schedule.BookAppointment(users);
