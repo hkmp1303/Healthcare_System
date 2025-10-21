@@ -1,48 +1,39 @@
 namespace HospitalApp;
 
-class JournalEntry
+class JournalEntry //class for JournalEntry
 {
-    public IUser Patient;    //testa detta annars får vi gå in och ändra i IUser till Username{get; set;} eller lägga till ett ID som vi kan ha som referens material!!!!
-    public IUser Personnel;
-    public string Text;
-    public DateTime dateTime;
-    public ReadPermisson readPermisson; //read permissions?
+    public IUser Patient;    //get patient
+    public IUser Personnel; //get personal
+    public string Text; //string used for journal documentation
+    public DateTime dateTime; //real time date and time
+    public ReadPermisson readPermisson; //read permissions
 
-    public JournalEntry(Patient patient, IUser personnel, string text, ReadPermisson readPerm)
+    public JournalEntry(Patient patient, IUser personnel, string text, ReadPermisson readPerm) //constructor
     {
         Patient = patient;
         Personnel = personnel;
         Text = text;
         dateTime = DateTime.Now;
-
         readPermisson = readPerm;
     }
 
-    [Flags]
-    public enum ReadPermisson
+    [Flags] //flags so you can set multiple enums
+    public enum ReadPermisson //read permissions
     {
-        None,
-        PatientRead, //public? alla kan läsa?
-        PersonnelRead, // dom som jobbar på sjukhuset?
-        AdminRead = 5, // Bara läkare kan läsa
+        None,   // basic setting
+        PatientRead, //patient lvl, everyone can read
+        PersonnelRead, // only personnel can read
+        AdminRead = 5, // only admin (really no use for it. it would be wierd if admins could read patients journals)
     }
 
-    public bool CanRead(IUser user)
+    public bool CanRead(IUser user) //who can use permissions. based on what role a user have
     {
-        if (user.IsRole(Role.Admin) && (readPermisson & ReadPermisson.AdminRead) != 0)
+        if (user.IsRole(Role.Admin) && (readPermisson & ReadPermisson.AdminRead) != 0) //set admin role to admin read Permission
             return true;
-        if (user.IsRole(Role.Personnel) && (readPermisson & ReadPermisson.PersonnelRead) != 0)
+        if (user.IsRole(Role.Personnel) && (readPermisson & ReadPermisson.PersonnelRead) != 0) //set personnel role to personnel read permissions
             return true;
-        if (user.IsRole(Role.Patient) && user == Patient && (readPermisson & ReadPermisson.PatientRead) != 0)
+        if (user.IsRole(Role.Patient) && user == Patient && (readPermisson & ReadPermisson.PatientRead) != 0) //set patient role to patient read permission
             return true;
         return false;
     }
-
-
-
 }
-
-/*
-Note:
-använd ReadPermisson med User role för att skriva logik????
-*/
