@@ -65,7 +65,7 @@ public class JournalStorage
 
             // Re-link Patient by email
             Patient? patient = users.OfType<Patient>()
-                               .FirstOrDefault(u => string.Equals(u.Email, patientEmail, StringComparison.OrdinalIgnoreCase));
+           .FirstOrDefault(u => string.Equals(u.Email, patientEmail, StringComparison.OrdinalIgnoreCase));
             if (patient is null) continue;
 
             // Re-link Personnel by username 
