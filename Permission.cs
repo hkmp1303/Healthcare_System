@@ -27,10 +27,15 @@ class Permission
         switch (user.GetRole())
         {
             case Role.Personnel:
-                perm = $"{(CanViewLocationSchedule?"true":"false")}:{(CanHandleAppointments?"true":"")}:{(CanHandleJournalEntries?"true":"")}";
+                perm = $"{(CanViewLocationSchedule ? "CanViewLocationSchedule" : "")}"
+                    + $":{(CanHandleAppointments ? "CanHandleAppointments" : "")}"
+                    + $":{(CanHandleJournalEntries? "CanHandleJournalEntries" : "")}";
                 break;
             case Role.Admin:
-                perm = $"{(CanRegisterPatients ? "true" : "")}:{(CanAddLocations ? "true" : "")}:{(CanCreatePersonnel ? "true" : "")}:{(CanViewPermissionsList ? "true" : "")}"
+                perm = $"{(CanRegisterPatients ? "CanRegisterPatients" : "")}"
+                    + $":{(CanAddLocations ? "CanAddLocations" : "")}"
+                    + $":{(CanCreatePersonnel ? "CanCreatePersonnel" : "")}"
+                    + $":{(CanViewPermissionsList ? "CanViewPermissionsList" : "")}"
                     + $":{CanAssignAdminPermissions}:{CanAssignPersonnelPermissions}";
                 break;
         }
