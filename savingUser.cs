@@ -1,26 +1,27 @@
 namespace HospitalApp;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection.Metadata;
+
+
+
+
 
 public class Duno
 {
     public List<IUser> userList = new();
-
+    //Paths and filenames
     public static string MemoryDir = "./file/";
     public static string MemoryUser = "user.txt";
     public static string MemorySchedule = "schedule.txt";
     public static string MemoryRequestList = "requestlist.txt";
     public static string MemoryJournal = "journal.txt";
+    //combine name of file and folder
     public static string JournalSave = Path.Combine(MemoryDir, MemoryJournal);
     public static string UserSave = Path.Combine(MemoryDir, MemoryUser);
     public static string ScheduleSave = Path.Combine(MemoryDir, MemorySchedule);
     public static string RequestListSave = Path.Combine(MemoryDir, MemoryRequestList);
 
 
-
+    //Check if files and foldes exist
     public void CheckFile()
     {
         if (!Directory.Exists(MemoryDir))
@@ -45,7 +46,7 @@ public class Duno
         }
 
     }
-
+    //save all users to users.txt
     public void SaveUser(List<IUser> users)
     {
 
@@ -66,6 +67,7 @@ public class Duno
         File.WriteAllLines(UserSave, lines);
 
     }
+    //load all users from user.txt
     public List<IUser> LoadUsers()
     {
         CheckFile(); // ser till att filen finns
@@ -113,7 +115,7 @@ public class Duno
 
         return loadedUsers;
     }
-
+    //save schedule to schedule.txt
     public void SaveSchedule((string patientslot, string doctorslot)[,] schedule)
     {
         CheckFile();
@@ -133,7 +135,7 @@ public class Duno
         }
         File.WriteAllLines(ScheduleSave, lines);
     }
-
+    // load schedule from schedule.txt
     public (string patientslot, string doctorslot)[,] Loadschedule(int days, int slots)
     {
         CheckFile();
@@ -165,7 +167,7 @@ public class Duno
         }
         return schedule;
     }
-
+    //save request to list requestlist.txt
     public void SaveRequestsList(List<(string PatientName, string PatDesc, PaitentWaitingStatus status)> requests)
     {
         CheckFile();
@@ -179,7 +181,7 @@ public class Duno
 
         File.WriteAllLines(RequestListSave, lines);
     }
-
+    //Load request to list from requestlist.txt
     public List<(string PatientName, string PatDesc, PaitentWaitingStatus status)> LoadRequestsList()
     {
         CheckFile();
@@ -214,8 +216,7 @@ public class Duno
         }
         return requests;
     }
-    // Format (semicolon-separated):
-    // PatientEmail ; PersonnelUsername ; DateTime("O") ; ReadPermisson(int) ; Text
+    //save journal to journal.txt
     public void SaveJournals(List<JournalEntry> journals)
     {
         CheckFile();
@@ -223,23 +224,23 @@ public class Duno
 
         foreach (JournalEntry j in journals)
         {
-            string patientEmail = (j.Patient is Patient p) ? p.Email : "";
+            string patientEmail = (j.Patient is Patient p) ? p.Email : "";//get patient email if valid
 
 
             string personnelUsername =
-                j.Personnel is Personnel per ? per.Username : "";
+                j.Personnel is Personnel per ? per.Username : "";// Get personnel username if valid
 
-            string dt = j.dateTime.ToString();
-            string perm = ((int)j.readPermisson).ToString();
+            string dt = j.dateTime.ToString(); // Convert date to string
+            string perm = ((int)j.readPermisson).ToString(); // Convert permission to number string
 
 
-            string line = string.Join(';', patientEmail, personnelUsername, dt, perm, j.Text ?? "");
-            lines.Add(line);
+            string line = string.Join(';', patientEmail, personnelUsername, dt, perm, j.Text ?? ""); // build line to save
+            lines.Add(line);// ad lines to list
         }
 
-        File.WriteAllLines(JournalSave, lines);
+        File.WriteAllLines(JournalSave, lines); // save it to the file
     }
-
+    //Loads journal from journal.txt
     public List<JournalEntry> LoadJournals(List<IUser> users)
     {
         CheckFile();
