@@ -6,7 +6,6 @@ Permission.Permissions = Utilities.ConvertObjToPermission(Utilities.ImportFromFi
 //Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
 List<Patient> patients = new();
 IUser? activeUser = null;
-List<JournalEntry> journals = new();
 Schedule schedule = new();
 JournalSystem journalSystem = new();
 const int days = 5;
@@ -14,6 +13,8 @@ const int slots = 7;
 schedule.WeekSchedule = saving.Loadschedule(days, slots);
 schedule.AppointmentRequests = saving.LoadRequestsList();
 schedule.FilledNullOnSchedule();
+
+List<JournalEntry> journals = saving.LoadJournals(users);
 
 
 saving.CheckFile();
@@ -135,7 +136,7 @@ while (running)
                 schedule.BookAppointment(users);
                 break;
             case "4":
-            schedule.MoveAppointment();
+                schedule.MoveAppointment();
                 break;
             case "5":
                 // approve appointment requests
@@ -184,5 +185,6 @@ while (running)
 
 // save all users when exiting the program
 saving.SaveUser(users);
+saving.SaveJournals(journals);
 // saving all permissions when exiting the program
 Utilities.ExportToFile("file/permissions.txt", typeof(Permission), Utilities.ConvertUserList(users));

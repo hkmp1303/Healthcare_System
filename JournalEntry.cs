@@ -1,6 +1,6 @@
 namespace HospitalApp;
 
-class JournalEntry //class for JournalEntry
+public class JournalEntry //class for JournalEntry
 {
     public IUser Patient;    //get patient
     public IUser Personnel; //get personal
@@ -8,7 +8,7 @@ class JournalEntry //class for JournalEntry
     public DateTime dateTime; //real time date and time
     public ReadPermisson readPermisson; //read permissions
 
-    public JournalEntry(Patient patient, IUser personnel, string text, ReadPermisson readPerm) //constructor
+    public JournalEntry(IUser patient, IUser personnel, string text, ReadPermisson readPerm) //constructor
     {
         Patient = patient;
         Personnel = personnel;
