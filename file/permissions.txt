@@ -1,0 +1,6 @@
+het:Admin:true:true:true:true:False:False
+tim:Admin:::true:true:AddLocations:False
+h:Admin:true:true:true:true:RegisterPatients, AddLocations, CreatePersonnelAccounts, ViewPermissionsList:ViewJournalEntries, MarkPermissionLevel, HandleAppointments, ViewLocationSchedule
+bob:Personnel:false::
+Per:Personnel:false::
+Mar:Personnel:false::

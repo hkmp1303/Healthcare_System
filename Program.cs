@@ -1,8 +1,9 @@
 ﻿using HospitalApp;
 Duno saving = new();
 List<IUser> users = saving.LoadUsers();
-//saving.LoadPermissions(); // Permission.Permissions -contains all permissions for saving
-Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
+Dictionary<string, IUser> usersPrint = Utilities.ConvertUserList(users);
+Permission.Permissions = Utilities.ConvertObjToPermission(Utilities.ImportFromFile(Path.Combine("file/permissions.txt"), typeof(Permission), users)); // load all permissions from file
+//Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
 List<Patient> patients = new();
 IUser? activeUser = null;
 List<JournalEntry> journals = new();
@@ -177,3 +178,5 @@ while (running)
 
 // save all users when exiting the program
 saving.SaveUser(users);
+// saving all permissions when exiting the program
+Utilities.ExportToFile("file/permissions.txt", typeof(Permission), Utilities.ConvertUserList(users));

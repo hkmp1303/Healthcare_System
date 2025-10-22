@@ -1,3 +1,5 @@
+using Microsoft.VisualBasic;
+
 namespace HospitalApp;
 
 class Utilities
@@ -14,6 +16,75 @@ class Utilities
                 userDict.Add(((UnregUser)user).Email, user);
         }
         return userDict;
+    }
+
+    // returns dictionary collection to file
+    public static void ExportToFile(string fileName, Type type, Dictionary<string, IUser> userDict)
+    {
+        List<string> lines = new();
+        foreach (var user in userDict)
+        {
+            if (type == typeof(Permission) && (user.Value.GetRole() & (Role.Admin | Role.Personnel)) > 0)
+            {
+                // throw new Exception("ohoh");
+                CommonPersonnel personnel = (CommonPersonnel)user.Value;
+                string line = personnel.Permissions.Serialize(personnel);
+                lines.Add(line);
+            }
+            else if (type == typeof(JournalEntry))
+            {
+            }
+        }
+        // File.Delete(fileName);
+        File.WriteAllLines(fileName, lines);
+    }
+
+    // returns dictionary collection from file
+    public static Dictionary<string, object> ImportFromFile(string fileName, Type type, List<IUser> users)
+    {
+        string[] lines = File.ReadAllLines(fileName);
+        Dictionary<string, object> dictOutput = new();
+        // if (type == typeof(Permission)) dictOutput = new Dictionary<string, Permission>();
+        // = new Dictionary<string, object>();
+        foreach (var dataLine in lines)
+        {
+            string[] data = dataLine.Split(':');
+            if (type == typeof(Permission))
+            {
+                Console.WriteLine(data[0]);
+                Permission perm = Permission.Deserialize(data);
+                foreach (var user in users)
+                    if ((user.GetRole() & (Role.Personnel | Role.Admin)) > 0) if(((CommonPersonnel)user).Username == data[0])
+                        ((CommonPersonnel)user).Permissions = perm;
+                dictOutput.Add(data[0], perm);
+            }
+            else if (type == typeof(JournalEntry))
+            {
+            }
+        }
+        return dictOutput;
+    }
+
+    // convert generic dictionary to Permission
+    public static Dictionary<string, Permission> ConvertObjToPermission(Dictionary<string, object> ObjDict)
+    {
+        Dictionary<string, Permission> dictOutput = new();
+        foreach (var obj in ObjDict)
+        {
+            dictOutput.Add(obj.Key, (Permission)obj.Value);
+        }
+        return dictOutput;
+    }
+
+    // convert permission dictionary to generic dictionairy
+    public static Dictionary<string, object> ConvertPermissionToObj(Dictionary<string, Permission> permDict)
+    {
+        Dictionary<string, object> objDict = new();
+        foreach (var perm in permDict)
+        {
+            objDict.Add(perm.Key, (object)perm.Value);
+        }
+        return objDict;
     }
 
     // select a user from unfiltered list, filter by role
@@ -36,7 +107,7 @@ class Utilities
             System.Console.Write("Selected User: ");
             int selection = 0;
             if (!int.TryParse(Console.ReadLine(), out selection)) continue;
-            if (availableUsers.Count < selection) continue; // check if selected users is valid
+            if (availableUsers.Count < selection || selection <= 0) continue; // check if selected users is valid
             return availableUsers[selection - 1]; // selected user
         }
     }
@@ -80,6 +151,14 @@ class Utilities
             //System.Console.WriteLine($"[{character}]"+line);
             System.Console.WriteLine(line);
         }
+    }
+
+    // username check, any user type
+    public static bool CheckUsername(List<IUser> users, string newUsername)
+    {
+        var userDict = ConvertUserList(users);
+        IUser u;
+        return userDict.TryGetValue(newUsername, out u!); // throwing away u
     }
 
     // generate random password
