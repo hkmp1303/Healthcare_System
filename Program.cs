@@ -6,8 +6,8 @@ Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
 List<Patient> patients = new();
 IUser? activeUser = null;
 JournalSystem journalSystem = new();
-HospitalApp.JournalStorage journalStorage = new();
-List<JournalEntry> journals = journalStorage.LoadJournals(users);
+HospitalApp.SavingJournal savingJournal = new();
+List<JournalEntry> journals = savingJournal.LoadJournals(users);
 
 Schedule schedule = new();
 
@@ -178,4 +178,4 @@ while (running)
 
 // save all users when exiting the program
 saving.SaveUser(users);
-journalStorage.SaveJournals(journals);
+savingJournal.SaveJournals(journals);

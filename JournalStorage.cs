@@ -2,7 +2,7 @@
 namespace HospitalApp;
 
 
-public class JournalStorage
+public class SavingJournal
 {
     public static string MemoryDir = "./file/";
     public static string MemoryJournal = "journal.txt";
