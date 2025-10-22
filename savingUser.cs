@@ -11,7 +11,11 @@ public class Duno
 
     public static string MemoryDir = "./file/";
     public static string MemoryUser = "user.txt";
+    public static string MemorySchedule = "schedule.txt";
+    public static string MemoryRequestList = "requestlist.txt";
     public static string UserSave = Path.Combine(MemoryDir, MemoryUser);
+    public static string ScheduleSave = Path.Combine(MemoryDir, MemorySchedule);
+    public static string RequestListSave = Path.Combine(MemoryDir, MemoryRequestList);
 
 
 
@@ -24,6 +28,14 @@ public class Duno
         if (!File.Exists(UserSave))
         {
             File.Create(UserSave).Close();
+        }
+        if (!File.Exists(ScheduleSave))
+        {
+            File.Create(ScheduleSave).Close();
+        }
+        if (!File.Exists(RequestListSave))
+        {
+            File.Create(RequestListSave).Close();
         }
 
     }
@@ -96,6 +108,105 @@ public class Duno
         return loadedUsers;
     }
 
+    public void SaveSchedule((string patientslot, string doctorslot)[,] schedule)
+    {
+        CheckFile();
 
+        List<string> lines = new();
+
+        int days = schedule.GetLength(0);
+        int slots = schedule.GetLength(1);
+
+        for (int i = 0; i < days; i++)
+        {
+            for (int j = 0; j < slots; j++)
+            {
+                var (patient, doctor) = schedule[i, j];
+                lines.Add($"{i};{j};{patient};{doctor}");
+            }
+        }
+        File.WriteAllLines(ScheduleSave, lines);
+    }
+
+    public (string patientslot, string doctorslot)[,] Loadschedule(int days, int slots)
+    {
+        CheckFile();
+
+        var schedule = new (string patientslot, string doctorslot)[days, slots];
+
+        if (!File.Exists(ScheduleSave))
+            return schedule;
+
+        string[] lines = File.ReadAllLines(ScheduleSave);
+
+        foreach (string line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
+            string[] parts = line.Split(';');
+
+            if (parts.Length < 4)
+                continue;
+
+            int day = int.Parse(parts[0]);
+            int slot = int.Parse(parts[1]);
+            string patient = parts[2];
+            string doctor = parts[3];
+
+            schedule[day, slot] = (patient, doctor);
+
+        }
+        return schedule;
+    }
+
+    public void SaveRequestsList(List<(string PatientName, string PatDesc, PaitentWaitingStatus status)> requests)
+    {
+        CheckFile();
+
+        List<string> lines = new();
+
+        foreach (var request in requests)
+        {
+            lines.Add($"{request.PatientName};{request.PatDesc};{request.status}");
+        }
+
+        File.WriteAllLines(RequestListSave, lines);
+    }
+
+    public List<(string PatientName, string PatDesc, PaitentWaitingStatus status)> LoadRequestsList()
+    {
+        CheckFile();
+
+        var requests = new List<(string PatientName, string PatDesc, PaitentWaitingStatus status)>();
+
+        if (!File.Exists(RequestListSave))
+            return requests;
+
+        string[] lines = File.ReadAllLines(RequestListSave);
+
+        foreach (string line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+                continue;
+
+            string[] parts = line.Split(';');
+            if (parts.Length < 3)
+                continue;
+
+            string name = parts[0];
+            string pdesc = parts[1];
+
+            if (Enum.TryParse(parts[2], out PaitentWaitingStatus status))
+            {
+                requests.Add((name, pdesc, status));
+            }
+            else
+            {
+                requests.Add((name, pdesc, PaitentWaitingStatus.Pending));
+            }
+        }
+        return requests;
+    }
 
 }

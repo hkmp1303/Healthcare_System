@@ -6,10 +6,13 @@ Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
 List<Patient> patients = new();
 IUser? activeUser = null;
 List<JournalEntry> journals = new();
-
-
 Schedule schedule = new();
 JournalSystem journalSystem = new();
+const int days = 5;
+const int slots = 7;
+schedule.WeekSchedule = saving.Loadschedule(days, slots);
+schedule.AppointmentRequests = saving.LoadRequestsList();
+schedule.FilledNullOnSchedule();
 
 
 saving.CheckFile();
@@ -90,6 +93,7 @@ while (running)
                 schedule.PrintSchedulePatient(activeUser);
                 break;
             case "L":
+                saving.SaveRequestsList(schedule.AppointmentRequests);
                 if (activeUser != null)
                 {
                     activeUser = null;
@@ -144,6 +148,8 @@ while (running)
                 schedule.PrintSchedulePersonnal(activeUser);
                 break;
             case "L":
+                saving.SaveRequestsList(schedule.AppointmentRequests);
+                saving.SaveSchedule(schedule.WeekSchedule);
                 if (activeUser != null)
                 {
                     activeUser = null;
