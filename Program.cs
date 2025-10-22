@@ -1,16 +1,20 @@
 ﻿using HospitalApp;
 Duno saving = new();
 List<IUser> users = saving.LoadUsers();
-//saving.LoadPermissions(); // Permission.Permissions -contains all permissions for saving
-Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
+Dictionary<string, IUser> usersPrint = Utilities.ConvertUserList(users);
+Permission.Permissions = Utilities.ConvertObjToPermission(Utilities.ImportFromFile(Path.Combine("file/permissions.txt"), typeof(Permission), users)); // load all permissions from file
+//Permission.AttachPermissionsToUsers(Utilities.ConvertUserList(users));
 List<Patient> patients = new();
 IUser? activeUser = null;
+Schedule schedule = new();
 JournalSystem journalSystem = new();
+const int days = 5;
+const int slots = 7;
+schedule.WeekSchedule = saving.Loadschedule(days, slots);
+schedule.AppointmentRequests = saving.LoadRequestsList();
+schedule.FilledNullOnSchedule();
 HospitalApp.SavingJournal savingJournal = new();
 List<JournalEntry> journals = savingJournal.LoadJournals(users);
-
-Schedule schedule = new();
-
 
 
 saving.CheckFile();
@@ -91,6 +95,7 @@ while (running)
                 schedule.PrintSchedulePatient(activeUser);
                 break;
             case "L":
+                saving.SaveRequestsList(schedule.AppointmentRequests);
                 if (activeUser != null)
                 {
                     activeUser = null;
@@ -145,6 +150,8 @@ while (running)
                 schedule.PrintSchedulePersonnal(activeUser);
                 break;
             case "L":
+                saving.SaveRequestsList(schedule.AppointmentRequests);
+                saving.SaveSchedule(schedule.WeekSchedule);
                 if (activeUser != null)
                 {
                     activeUser = null;
@@ -179,3 +186,5 @@ while (running)
 // save all users when exiting the program
 saving.SaveUser(users);
 savingJournal.SaveJournals(journals);
+// saving all permissions when exiting the program
+Utilities.ExportToFile("file/permissions.txt", typeof(Permission), Utilities.ConvertUserList(users));

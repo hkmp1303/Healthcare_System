@@ -1,0 +1,6 @@
+het:Admin:CanRegisterPatients:CanAddLocations:CanCreatePersonnel:CanViewPermissionsList:False:False
+tim:Admin:::CanCreatePersonnel:CanViewPermissionsList:AddLocations:False
+h:Admin:CanRegisterPatients:CanAddLocations:CanCreatePersonnel:CanViewPermissionsList:RegisterPatients, AddLocations, CreatePersonnelAccounts, ViewPermissionsList:ViewJournalEntries, MarkPermissionLevel, HandleAppointments, ViewLocationSchedule
+bob:Personnel:false::
+Per:Personnel:false::
+Mar:Personnel:false::
