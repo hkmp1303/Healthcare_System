@@ -48,12 +48,12 @@ class Permission
                 // creating new permission for Admin per savefile
 
 
-                perm = new Permission(data[2] == "true", data[3] == "true", data[4] == "true", data[5] == "true",
+                perm = new Permission(data[2] == "CanRegisterPatients", data[3] == "CanAddLocations", data[4] == "CanCreatePersonnel", data[5] == "CanViewPermissionsList",
                 (AdminToAdminPermission)Enum.Parse(typeof(AdminToAdminPermission), data[6]),
                 (AdminToPersonnelPermission)Enum.Parse(typeof(AdminToPersonnelPermission), data[7]));
                 break;
             case "Personnel":
-                perm = new Permission(data[2] == "true", data[3] == "true", data[4] == "true");
+                perm = new Permission(data[2] == "CanViewLocationSchedule", data[3] == "CanHandleAppointments", data[4] == "CanHandleJournalEntries");
                 break;
         }
         return perm; // calling constructor
@@ -88,9 +88,9 @@ class Permission
     // Personnel constructor
     public Permission(bool canViewLocationSchedule, bool canHandleAppointments, bool canHandleJournalEntries)
     {
-        CanHandleJournalEntries = canHandleJournalEntries;
-        CanHandleAppointments = canHandleAppointments;
         CanViewLocationSchedule = canViewLocationSchedule;
+        CanHandleAppointments = canHandleAppointments;
+        CanHandleJournalEntries = canHandleJournalEntries;
         CanAssignPersonnelToRegions = new(); // empty list
     }
 
@@ -120,7 +120,6 @@ class Permission
 
     // this method should run after load file
     // sets Admin and Personnel permissions
-
     /*
     public static void AttachPermissionsToUsers(Dictionary<string, IUser> users)
     {
