@@ -9,7 +9,6 @@ UnregUser;awd;awd
 UnregUser;wad;awd
 Patient;e;w
 Admin;het;mar
-Admin;tim;he
 Admin;h;h
 UnregUser;45;45
 Personnel;Per;afrg
