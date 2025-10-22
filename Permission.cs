@@ -140,7 +140,6 @@ class Permission
                         user.Value.Permissions = perm;
                         break;
                 }
-
             }
         }
     }
@@ -149,7 +148,7 @@ class Permission
     // Show permissions list, single user
     public static void ViewPermissionsOf(CommonPersonnel user)
     {
-        System.Console.WriteLine($"The user{user.Username} has the following permissions: ");
+        System.Console.WriteLine($"The {user.Username} has the following permissions: ");
         if (user.Permissions.CanAddLocations)
             System.Console.WriteLine("Can add locations");
         if (user.Permissions.CanCreatePersonnel)

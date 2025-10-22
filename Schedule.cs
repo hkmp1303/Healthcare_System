@@ -633,6 +633,11 @@ class Schedule //class for schedule
             }
             Console.ReadLine();
         }
+        else if (activeUser is UnregUser)
+        {
+            System.Console.WriteLine("You have no appointments today\nPress [Enter] to continue");
+            Console.ReadLine();
+        }
     }
 
     public void PrintSchedulePersonnal(IUser? activeUser) //personnel Schedule (personal to the activeUser)

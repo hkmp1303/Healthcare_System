@@ -104,6 +104,9 @@ public class Duno
                 case "UnregUser":
                     loadedUsers.Add(new UnregUser(username, password));
                     break;
+                case "PatientRegRequested":
+                    loadedUsers.Add(new UnregUser(username, password, Role.PatientRegRequested));
+                    break;
                 default:
                     Console.WriteLine($"Okänd användartyp: {type}");
                     break;

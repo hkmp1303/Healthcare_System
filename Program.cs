@@ -67,15 +67,41 @@ while (running)
     }
     else if (activeUser!.IsRole(Role.UnregUser))
     {
-        Console.Clear();
-        Console.WriteLine("you are unregisterd");
-        Console.ReadKey();
-        activeUser = null;
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine($"Welcome {((UnregUser)activeUser).Username}! You are a registered user.\nUser Menu");
+            System.Console.WriteLine("[v] View my schedule");
+            if (((UnregUser)activeUser).Role != Role.PatientRegRequested)
+                System.Console.WriteLine("[r] Request patient registration");
+            System.Console.WriteLine("\n[exit] to exit the program");
+            System.Console.WriteLine("[logout] to logout of the program");
+            switch (Console.ReadLine())
+            {
+                case "v":
+                    Console.Clear();
+                    schedule.PrintSchedulePatient(activeUser);
+                    continue;
+                case "r":
+                    Console.Clear();
+                    ((UnregUser)activeUser).Role = Role.PatientRegRequested;
+                    System.Console.WriteLine("Your request for patient registration has been sent.\nPress [Enter] to continue. ");
+                    System.Console.ReadLine();
+                    continue;
+                case "exit":
+                    running = false;
+                    break;
+                case "logout":
+                    activeUser = null;
+                    break;
+            }
+            break; // exit program per user input
+        }
     }
     else if (activeUser!.IsRole(Role.Patient))
     {
         Console.Clear();
-        System.Console.WriteLine("Welcome patient, "); // Should say ("Welcome patient, " + Patient-Name)
+        System.Console.WriteLine($"Welcome {((Patient)activeUser).Username}!\nPatient Menu");
         System.Console.WriteLine(" ");
         System.Console.WriteLine("[1]. View Journal");
         System.Console.WriteLine("[2]. Request an appointment");

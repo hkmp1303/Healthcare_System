@@ -50,7 +50,7 @@ class Admin : CommonPersonnel
         }
         while (true)
         {
-            System.Console.Write("Name of new Location: ");
+            System.Console.Write("Press [Enter] to return to the Admin Menu\n\nName of new Location: ");
             string locationName = Console.ReadLine() ?? "";
             if (locationName == "")
             {
@@ -105,7 +105,7 @@ class Admin : CommonPersonnel
                     users.Remove(selectedUser); // remove Unregistered user
                     Console.ReadLine();
                     return;
-                case "d": // deny registration, convert PatientRegRequested to Patient
+                case "d": // deny registration, convert PatientRegRequested to UnregUser
                     System.Console.WriteLine($"Patient registration for {selectedUser.Username} is denied. Press enter to continue.");
                     selectedUser.Role = Role.UnregUser;
                     Console.ReadLine();
