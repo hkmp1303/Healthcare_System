@@ -1,3 +1,4 @@
+
 namespace HospitalApp;
 // As an admin, give permission to handle registrations, add locations,
 // create personnel accounts and view list of permissions
@@ -19,6 +20,45 @@ class Permission
         public bool CanHandleJournalEntries; // view entries, assign read permissions
     #endregion
 
+    // pre-serialize data for saving, single line
+    public string Serialize(CommonPersonnel user)
+    {
+        string perm = "";
+        switch (user.GetRole())
+        {
+            case Role.Personnel:
+                perm = $"{(CanViewLocationSchedule?"true":"false")}:{(CanHandleAppointments?"true":"")}:{(CanHandleJournalEntries?"true":"")}";
+                break;
+            case Role.Admin:
+                perm = $"{(CanRegisterPatients ? "true" : "")}:{(CanAddLocations ? "true" : "")}:{(CanCreatePersonnel ? "true" : "")}:{(CanViewPermissionsList ? "true" : "")}"
+                    + $":{CanAssignAdminPermissions}:{CanAssignPersonnelPermissions}";
+                break;
+        }
+        return $"{user.Username}:{user.GetRole()}:{perm}";
+    }
+
+    // create object from savefile, single line
+    public static Permission Deserialize(string[] data)
+    {
+        string username = data[0], role = data[1];
+        Permission perm = new(); // new object, unused
+        switch (role)
+        {
+            case "Admin":
+                // creating new permission for Admin per savefile
+
+
+                perm = new Permission(data[2] == "CanRegisterPatients", data[3] == "CanAddLocations", data[4] == "CanCreatePersonnel", data[5] == "CanViewPermissionsList",
+                (AdminToAdminPermission)Enum.Parse(typeof(AdminToAdminPermission), data[6]),
+                (AdminToPersonnelPermission)Enum.Parse(typeof(AdminToPersonnelPermission), data[7]));
+                break;
+            case "Personnel":
+                perm = new Permission(data[2] == "CanViewLocationSchedule", data[3] == "CanHandleAppointments", data[4] == "CanHandleJournalEntries");
+                break;
+        }
+        return perm; // calling constructor
+    }
+
     // Dictionary of Permissions
     public static Dictionary<string, Permission> Permissions = new();
 
@@ -28,12 +68,14 @@ class Permission
         CanAssignPersonnelToRegions = new(); // empty list
     }
 
-    // Admin constructor,
+    // Admin constructor, setting initial property values
     public Permission(bool canRegisterPatients, bool canAddLocations,
         bool canCreatePersonnel, bool canViewPermissionsList,
+        // enum flag bitset
         AdminToAdminPermission canAssignAdminPermissions,
         AdminToPersonnelPermission canAssignPersonnelPermissions
     ) {
+        // boolean
         CanRegisterPatients = canRegisterPatients;
         CanAddLocations = canAddLocations;
         CanCreatePersonnel = canCreatePersonnel;
@@ -46,9 +88,9 @@ class Permission
     // Personnel constructor
     public Permission(bool canViewLocationSchedule, bool canHandleAppointments, bool canHandleJournalEntries)
     {
-        CanHandleJournalEntries = canHandleJournalEntries;
-        CanHandleAppointments = canHandleAppointments;
         CanViewLocationSchedule = canViewLocationSchedule;
+        CanHandleAppointments = canHandleAppointments;
+        CanHandleJournalEntries = canHandleJournalEntries;
         CanAssignPersonnelToRegions = new(); // empty list
     }
 
@@ -78,9 +120,12 @@ class Permission
 
     // this method should run after load file
     // sets Admin and Personnel permissions
-    public static void AttachPermissionsToUsers(Dictionary<string, IUser> Users)
+    /*
+    public static void AttachPermissionsToUsers(Dictionary<string, IUser> users)
     {
-        foreach (var user in Utilities.FilterCommonPersonnel(Users))
+        System.Console.WriteLine(Permissions.Count);
+
+        foreach (var user in Utilities.FilterCommonPersonnel(users))
         {
             Permission? perm = null;
             if (Permissions.TryGetValue(user.Key, out perm))
@@ -89,6 +134,7 @@ class Permission
                 {
                     case Role.Admin:
                         user.Value.Permissions = perm;
+                        System.Console.WriteLine(user.Key);
                         break;
                     case Role.Personnel:
                         user.Value.Permissions = perm;
@@ -98,6 +144,7 @@ class Permission
             }
         }
     }
+    */
 
     // Show permissions list, single user
     public static void ViewPermissionsOf(CommonPersonnel user)

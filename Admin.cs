@@ -20,7 +20,6 @@ class Admin : CommonPersonnel
     // admin class constructor : call to parent class constructor
     public Admin(string username, string password) : base(username, password, Role.Admin)
     {
-
     }
 
     // Assign personnel users to a region
@@ -53,8 +52,19 @@ class Admin : CommonPersonnel
         {
             System.Console.Write("Name of new Location: ");
             string locationName = Console.ReadLine() ?? "";
-            if (locationName == "") continue; // check for empty input, restart while loop
-            //Location.AddLocation(locationName);
+            if (locationName == "")
+            {
+                break; // check for empty input, restart while loop
+            }
+            if (locationName.Trim() == "")
+            {
+                System.Console.WriteLine("Invalid entry. Enter the location name or press [Enter] to return to the Admin menu.");
+                continue; // check for empty input, restart while loop
+            }
+                System.Console.Write($"The location {locationName} has been added. Press [Enter] to return to the Admin menu.");
+            Console.ReadLine();
+            // Location.AddLocation(locationName);
+            return;
         }
     }
 
@@ -63,16 +73,17 @@ class Admin : CommonPersonnel
     {
         if (!Permissions.CanRegisterPatients)
         {
-            System.Console.WriteLine("You don't have permission to handle patient registration.\nPress enter to continue.");
+            System.Console.WriteLine("You don't have permission to handle patient registration.\nPress [Enter] to continue.");
             Console.ReadLine();
             return;
         }
+        Console.Clear();
         System.Console.WriteLine("Patient Registration Request(s)");
         // calling Utilites to filter users
         Dictionary<string, IUser> dictUsers = Utilities.FilterUsersByRole(Utilities.ConvertUserList(users), Role.PatientRegRequested);
         if (dictUsers.Count == 0)
         {
-            System.Console.WriteLine("There are no users requesting patient registration.\nPress [Enter] to return to the Admin menu");
+            System.Console.WriteLine("There are no users requesting patient registration.\n\nPress [Enter] to return to the Admin menu");
             Console.ReadLine();
             return;
         }
@@ -105,12 +116,32 @@ class Admin : CommonPersonnel
         }
     }
 
-    private Personnel CreatePersonnelAccount()
+    private Personnel? CreatePersonnelAccount(List<IUser> users)
     {
+        Console.Clear();
         System.Console.Write("Enter the username of the new personnel account: ");
-        string username = Console.ReadLine() ?? "";
-        string password = Utilities.GeneratePassword(4);  // auto generate from Utilities
-        return new Personnel(username, password);
+        while (true)
+        {
+            string newUsername = Console.ReadLine() ?? "";
+            if (newUsername == "") return null;
+            if (newUsername.Trim() == "")
+            {
+                System.Console.WriteLine("Invalid entry. Try a different username.");
+                continue;
+            }
+            if (Utilities.CheckUsername(users, newUsername))
+            {
+                System.Console.WriteLine("This username already exists.");
+                System.Console.WriteLine("\nPress [Enter] to return to the Personnel menu");
+                continue;
+            }
+            string password = Utilities.GeneratePassword(4);  // auto generate from Utilities
+            Console.Clear();
+            System.Console.WriteLine($"A personnel account for {newUsername} has been created.\nAccount password: {password}");
+            System.Console.Write("\nPress [Enter] to return to the admin menu");
+            Console.ReadLine();
+            return new Personnel(newUsername, password);
+        }
     }
 
     // Assign permssions, to Admin
@@ -201,7 +232,7 @@ class Admin : CommonPersonnel
             Console.Clear();
             System.Console.WriteLine($"Select the permission to assign to: {personnel.Username}");
             if (!personnel.Permissions.CanHandleAppointments)
-                System.Console.WriteLine("[a] Can Handle Appointments");
+                System.Console.WriteLine("[a] Can accept, deny or modify Appointments");
             if (!personnel.Permissions.CanHandleJournalEntries)
                 System.Console.WriteLine("[p] Can Assign level of Read Permission");
             if (!personnel.Permissions.CanViewLocationSchedule)
@@ -219,6 +250,7 @@ class Admin : CommonPersonnel
                     personnel.Permissions.CanHandleJournalEntries = true;
                     break;
                 case "":  // exits to previous menu
+
                     return;
                 default: // restarts if bad user input
                     continue;
@@ -230,7 +262,7 @@ class Admin : CommonPersonnel
     // static method show admin menu
     public bool? ShowAdminMenu(List<IUser> allUsers)
     {
-        // TODO Menu
+        Console.Clear();
         while (true)
         {
             List<string> menu = new();
@@ -244,10 +276,11 @@ class Admin : CommonPersonnel
             if (Permissions.CanViewPermissionsList || Permissions.CanAssignAdminPermissions != AdminToAdminPermission.False
                     || Permissions.CanAssignPersonnelPermissions != AdminToPersonnelPermission.False)
                 menu.Add("[v] View Permissions Menu");
-            menu.Add("[exit] to exit the program");
+            menu.Add("\n[exit] to exit the program");
             menu.Add("[logout] to logout of the program");
             Utilities.PrintLines(menu);
             string selection = Console.ReadLine() ?? "";
+            Console.Clear();
             menu.Clear();
             switch (selection)
             {
@@ -258,28 +291,40 @@ class Admin : CommonPersonnel
                     HandlePatientRegistration(allUsers);
                     break;
                 case "p":
-                    menu.Clear();
-                    menu.Add("Personnel Menu");
-                    if (Permissions.CanCreatePersonnel)
-                        menu.Add("[c] Create Personnel Account");
-                    if (Permissions.CanAssignPersonnelToRegions.Count > 0)
-                        menu.Add("[a] Assign Personnel to a Region");
-                    Utilities.PrintLines(menu);
-                    switch (Console.ReadLine())
+                    while (true)
                     {
-                        case "c":
-                            if (!Permissions.CanCreatePersonnel)
-                            {
-                                System.Console.WriteLine("You don't have permission to create personnel accounts.\nPress enter to continue.");
-                                Console.ReadLine();
+                        menu.Clear();
+                        Console.Clear();
+                        menu.Add("Personnel Menu");
+                        if (Permissions.CanCreatePersonnel)
+                            menu.Add("[c] Create Personnel Account");
+                        if (Permissions.CanAssignPersonnelToRegions.Count > 0)
+                            menu.Add("[a] Assign Personnel to a Region"); // not shown Regions do not exits
+                        menu.Add("\nPress [Enter] to return to the Admin Menu");
+                        Utilities.PrintLines(menu);
+                        switch (Console.ReadLine() ?? "")
+                        {
+                            case "c":
+                                if (!Permissions.CanCreatePersonnel)
+                                {
+                                    System.Console.WriteLine("You don't have permission to create personnel accounts.\nPress enter to continue.");
+                                    Console.ReadLine();
+                                    break;
+                                }
+                                Personnel? newPersonnel = CreatePersonnelAccount(allUsers);
+                                if (newPersonnel == null) continue;
+                                allUsers.Add(newPersonnel);
                                 break;
-                            }
-                            allUsers.Add(CreatePersonnelAccount());
-                            break;
-                        case "a":
-                            Personnel personnel = (Personnel)Utilities.PickUserFromList(Utilities.ConvertUserList(allUsers), Role.Personnel);
-                            AssignPersonelToRegion(personnel);
-                            break;
+                            case "a":
+                                Personnel personnel = (Personnel)Utilities.PickUserFromList(Utilities.ConvertUserList(allUsers), Role.Personnel);
+                                AssignPersonelToRegion(personnel);
+                                break;
+                            case "":
+                                break;
+                            default:
+                                continue;
+                        }
+                        break;
                     }
                     break;
                 case "v":

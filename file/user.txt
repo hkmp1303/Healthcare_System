@@ -1,4 +1,6 @@
+Admin;het;mar
 Admin;tim;he
+Admin;h;h
 Patient;ali;pass123
 Personnel;bob;secret
 Patient;babe@w;2
@@ -7,3 +9,8 @@ UnregUser;dim@e;we
 UnregUser;wda;awd
 UnregUser;awd;awd
 UnregUser;wad;awd
+UnregUser;45;45
+Personnel;Per;afrg
+UnregUser;h@h;f
+Personnel;Mar;esja
+UnregUser;q;f
