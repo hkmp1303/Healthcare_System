@@ -13,8 +13,8 @@ const int slots = 7;
 schedule.WeekSchedule = saving.Loadschedule(days, slots);
 schedule.AppointmentRequests = saving.LoadRequestsList();
 schedule.FilledNullOnSchedule();
-HospitalApp.SavingJournal savingJournal = new();
-List<JournalEntry> journals = savingJournal.LoadJournals(users);
+
+List<JournalEntry> journals = saving.LoadJournals(users);
 
 
 saving.CheckFile();
@@ -185,6 +185,6 @@ while (running)
 
 // save all users when exiting the program
 saving.SaveUser(users);
-savingJournal.SaveJournals(journals);
+saving.SaveJournals(journals);
 // saving all permissions when exiting the program
 Utilities.ExportToFile("file/permissions.txt", typeof(Permission), Utilities.ConvertUserList(users));

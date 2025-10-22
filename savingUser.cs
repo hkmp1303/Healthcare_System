@@ -13,6 +13,8 @@ public class Duno
     public static string MemoryUser = "user.txt";
     public static string MemorySchedule = "schedule.txt";
     public static string MemoryRequestList = "requestlist.txt";
+    public static string MemoryJournal = "journal.txt";
+    public static string JournalSave = Path.Combine(MemoryDir, MemoryJournal);
     public static string UserSave = Path.Combine(MemoryDir, MemoryUser);
     public static string ScheduleSave = Path.Combine(MemoryDir, MemorySchedule);
     public static string RequestListSave = Path.Combine(MemoryDir, MemoryRequestList);
@@ -36,6 +38,10 @@ public class Duno
         if (!File.Exists(RequestListSave))
         {
             File.Create(RequestListSave).Close();
+        }
+        if (!File.Exists(JournalSave))
+        {
+            File.Create(JournalSave).Close();
         }
 
     }
