@@ -85,7 +85,7 @@ while (running)
                 case "r":
                     Console.Clear();
                     ((UnregUser)activeUser).Role = Role.PatientRegRequested;
-                    System.Console.WriteLine("Your request for patient registration has been sent.\nPress [Enter] to continue. ");
+                    System.Console.WriteLine("Your request for patient registration has been sent.\n\nPress [Enter] to continue. ");
                     System.Console.ReadLine();
                     continue;
                 case "exit":

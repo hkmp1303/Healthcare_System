@@ -635,7 +635,7 @@ class Schedule //class for schedule
         }
         else if (activeUser is UnregUser)
         {
-            System.Console.WriteLine("You have no appointments today\nPress [Enter] to continue");
+            System.Console.WriteLine("You have no appointments today.\n\nPress [Enter] to continue");
             Console.ReadLine();
         }
     }

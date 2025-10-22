@@ -91,6 +91,7 @@ class Admin : CommonPersonnel
         UnregUser selectedUser = (UnregUser)Utilities.PickUserFromList(dictUsers, null);
         while (true)
         {
+            Console.Clear();
             // calling PrintLine method, printing registration menu
             Utilities.PrintLines(new[] { $"User requesting patient registration: {selectedUser.Username}",
                 "[a] approve patient registration request",
@@ -100,13 +101,15 @@ class Admin : CommonPersonnel
             switch (Console.ReadLine() ?? "")
             {
                 case "a": // approve registration, convert UnregUser to Patient
-                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is approved. Press enter to continue.");
+                    Console.Clear();
+                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is approved. \n\nPress [enter] to continue.");
                     users.Add(new Patient(selectedUser)); // add new Patient user
                     users.Remove(selectedUser); // remove Unregistered user
                     Console.ReadLine();
                     return;
                 case "d": // deny registration, convert PatientRegRequested to UnregUser
-                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is denied. Press enter to continue.");
+                    Console.Clear();
+                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is denied.\n\nPress [enter] to continue.");
                     selectedUser.Role = Role.UnregUser;
                     Console.ReadLine();
                     return;
