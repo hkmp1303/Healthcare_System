@@ -31,10 +31,11 @@ class Admin : CommonPersonnel
             Console.Clear();
             System.Console.Write("Enter the Region you wish to assign: ");
             //Region region = Region.PickRegionFromList(); // call static method, pick region
-            System.Console.WriteLine("${Region} has been assigned to user {user}. Press enter to continue.");
+            System.Console.WriteLine("${Region} has been assigned to user {user}.\n\nPress [enter] to continue.");
             //region.AssignedUsers.Add(user);  // add user to region user list
             //user.Region = region; // assign region to personnel user
             Console.ReadLine();
+            break;
         }
     }
 
@@ -44,7 +45,7 @@ class Admin : CommonPersonnel
         Console.Clear();
         if (!Permissions.CanAddLocations) // permission check
         {
-            System.Console.WriteLine("You don't have permission to add locations.\nPress enter to continue.");
+            System.Console.WriteLine("You don't have permission to add locations.\n\nPress [enter] to continue.");
             Console.ReadLine();
             return;
         }
@@ -270,7 +271,7 @@ class Admin : CommonPersonnel
             if (!personnel.Permissions.CanViewLocationSchedule
             && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewLocationSchedule) > 0)
                 System.Console.WriteLine("[v] Can view schedule by location");
-            System.Console.WriteLine("Press enter to return to the previous menu");
+            System.Console.WriteLine("Press [enter] to return to the previous menu");
             switch (System.Console.ReadLine() ?? "")
             {
                 case "v":
@@ -340,7 +341,7 @@ class Admin : CommonPersonnel
                             case "c":
                                 if (!Permissions.CanCreatePersonnel)
                                 {
-                                    System.Console.WriteLine("You don't have permission to create personnel accounts.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to create personnel accounts.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -380,7 +381,7 @@ class Admin : CommonPersonnel
                             case "v":
                                 if (!Permissions.CanViewPermissionsList)
                                 {
-                                    System.Console.WriteLine("You don't have permission to view the permissions list.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to view the permissions list.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -390,7 +391,7 @@ class Admin : CommonPersonnel
                             case "a":
                                 if (Permissions.CanAssignAdminPermissions == AdminToAdminPermission.False)
                                 {
-                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -402,7 +403,7 @@ class Admin : CommonPersonnel
                             case "p":
                                 if (Permissions.CanAssignPersonnelPermissions == AdminToPersonnelPermission.False)
                                 {
-                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
