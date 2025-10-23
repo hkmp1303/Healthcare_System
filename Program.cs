@@ -84,7 +84,7 @@ while (running)
                 System.Console.WriteLine("[r] Request patient registration");
             System.Console.WriteLine("\n[exit] to exit the program");
             System.Console.WriteLine("[logout] to logout of the program");
-            switch (Console.ReadLine())
+            switch (Console.ReadLine() ?? "")
             {
                 case "v":
                     Console.Clear();
@@ -102,6 +102,8 @@ while (running)
                 case "logout":
                     activeUser = null;
                     break;
+                case "":
+                    continue;
             }
             break; // exit program per user input
         }
