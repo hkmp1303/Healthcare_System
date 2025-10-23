@@ -153,7 +153,7 @@ class Utilities
         }
     }
 
-    // username check, any user type
+    // username check, any user type, return true = the user already exists
     public static bool CheckUsername(List<IUser> users, string newUsername)
     {
         var userDict = ConvertUserList(users);

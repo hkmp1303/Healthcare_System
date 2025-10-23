@@ -28,19 +28,27 @@ while (running)
     if (activeUser == null)
     {
         Console.Clear();
-        System.Console.WriteLine("welcome to the start page");
+        System.Console.WriteLine("Welcome to the Start Menu");
         System.Console.WriteLine(" ");
         System.Console.WriteLine("[1] Register");
         System.Console.WriteLine("[2]. Login");
         System.Console.WriteLine("[Q]. Quit");
 
-        switch (Console.ReadLine())
+        switch ((Console.ReadLine() ?? "").ToUpper())
         {
             case "1":
-                IUser newUSer = UserCreator.CreateUnreg();
+                Console.Clear();
+                UnregUser newUSer = (UnregUser)UserCreator.CreateUnreg();
+                if (Utilities.CheckUsername(users, newUSer.Username))
+                {
+                    System.Console.WriteLine($"{newUSer.Username} is not available. Enter a different selection.\n\nPress [enter] to return to the Start Menu ");
+                    Console.ReadLine();
+                    break;
+                }
                 users.Add(newUSer);
                 saving.SaveUser(users);
-                Console.WriteLine("sucssses");
+                Console.Write("Your account has been registered.\n\nPress [enter] to return to the Start Menu ");
+                Console.ReadLine();
                 break;
 
 
@@ -67,15 +75,43 @@ while (running)
     }
     else if (activeUser!.IsRole(Role.UnregUser))
     {
-        Console.Clear();
-        Console.WriteLine("you are unregisterd");
-        Console.ReadKey();
-        activeUser = null;
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine($"Welcome {((UnregUser)activeUser).Username}! You are a registered user.\nUser Menu");
+            System.Console.WriteLine("[v] View my schedule");
+            if (((UnregUser)activeUser).Role != Role.PatientRegRequested)
+                System.Console.WriteLine("[r] Request patient registration");
+            System.Console.WriteLine("\n[exit] to exit the program");
+            System.Console.WriteLine("[logout] to logout of the program");
+            switch (Console.ReadLine() ?? "")
+            {
+                case "v":
+                    Console.Clear();
+                    schedule.PrintSchedulePatient(activeUser);
+                    continue;
+                case "r":
+                    Console.Clear();
+                    ((UnregUser)activeUser).Role = Role.PatientRegRequested;
+                    System.Console.WriteLine("Your request for patient registration has been sent.\n\nPress [Enter] to continue. ");
+                    System.Console.ReadLine();
+                    continue;
+                case "exit":
+                    running = false;
+                    break;
+                case "logout":
+                    activeUser = null;
+                    break;
+                case "":
+                    continue;
+            }
+            break; // exit program per user input
+        }
     }
     else if (activeUser!.IsRole(Role.Patient))
     {
         Console.Clear();
-        System.Console.WriteLine("Welcome patient, "); // Should say ("Welcome patient, " + Patient-Name)
+        System.Console.WriteLine($"Welcome {((Patient)activeUser).Username}!\nPatient Menu");
         System.Console.WriteLine(" ");
         System.Console.WriteLine("[1]. View Journal");
         System.Console.WriteLine("[2]. Request an appointment");
@@ -124,7 +160,7 @@ while (running)
         System.Console.WriteLine("[L]. Log Out");
         System.Console.WriteLine("[Q]. Quit");
 
-        switch (Console.ReadLine())
+        switch ((Console.ReadLine() ?? "").ToUpper())
         {
             case "1":
                 journalSystem.SeeJournalEntry(journals, users, activeUser);

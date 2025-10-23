@@ -31,10 +31,11 @@ class Admin : CommonPersonnel
             Console.Clear();
             System.Console.Write("Enter the Region you wish to assign: ");
             //Region region = Region.PickRegionFromList(); // call static method, pick region
-            System.Console.WriteLine("${Region} has been assigned to user {user}. Press enter to continue.");
+            System.Console.WriteLine("${Region} has been assigned to user {user}.\n\nPress [enter] to continue.");
             //region.AssignedUsers.Add(user);  // add user to region user list
             //user.Region = region; // assign region to personnel user
             Console.ReadLine();
+            break;
         }
     }
 
@@ -44,13 +45,13 @@ class Admin : CommonPersonnel
         Console.Clear();
         if (!Permissions.CanAddLocations) // permission check
         {
-            System.Console.WriteLine("You don't have permission to add locations.\nPress enter to continue.");
+            System.Console.WriteLine("You don't have permission to add locations.\n\nPress [enter] to continue.");
             Console.ReadLine();
             return;
         }
         while (true)
         {
-            System.Console.Write("Name of new Location: ");
+            System.Console.Write("Press [Enter] to return to the Admin Menu\n\nName of new Location: ");
             string locationName = Console.ReadLine() ?? "";
             if (locationName == "")
             {
@@ -91,6 +92,7 @@ class Admin : CommonPersonnel
         UnregUser selectedUser = (UnregUser)Utilities.PickUserFromList(dictUsers, null);
         while (true)
         {
+            Console.Clear();
             // calling PrintLine method, printing registration menu
             Utilities.PrintLines(new[] { $"User requesting patient registration: {selectedUser.Username}",
                 "[a] approve patient registration request",
@@ -100,13 +102,15 @@ class Admin : CommonPersonnel
             switch (Console.ReadLine() ?? "")
             {
                 case "a": // approve registration, convert UnregUser to Patient
-                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is approved. Press enter to continue.");
+                    Console.Clear();
+                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is approved. \n\nPress [enter] to continue.");
                     users.Add(new Patient(selectedUser)); // add new Patient user
                     users.Remove(selectedUser); // remove Unregistered user
                     Console.ReadLine();
                     return;
-                case "d": // deny registration, convert PatientRegRequested to Patient
-                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is denied. Press enter to continue.");
+                case "d": // deny registration, convert PatientRegRequested to UnregUser
+                    Console.Clear();
+                    System.Console.WriteLine($"Patient registration for {selectedUser.Username} is denied.\n\nPress [enter] to continue.");
                     selectedUser.Role = Role.UnregUser;
                     Console.ReadLine();
                     return;
@@ -145,118 +149,148 @@ class Admin : CommonPersonnel
     }
 
     // Assign permssions, to Admin
-    private void AssignPermissionToAdmin(Admin admin)
+    private bool AssignPermissionToAdmin(Admin admin)
     {
         while (true)
         {
             Console.Clear();
+            if (admin.Permissions.CanAddLocations && admin.Permissions.CanCreatePersonnel
+            && admin.Permissions.CanViewPermissionsList && admin.Permissions.CanViewLocationSchedule
+            && (admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.AddLocations) > 0
+            && (admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.CreatePersonnelAccounts) > 0
+            && (admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.ViewPermissionsList) > 0
+            && (admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.RegisterPatients) > 0
+            && (admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.HandleAppointments) > 0
+            && (admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewJournalEntries) > 0
+            && (admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewLocationSchedule) > 0)
+            {
+                System.Console.Write($"{admin.Username} has all available permissions.\n\nPress [enter] to return to the Admin Menu ");
+                Console.ReadLine();
+                return false;
+            }
+            // both the person who's permissions we're assigning and the admin that is setting it has to be checked
             System.Console.WriteLine($"Select the permission to assign to: {admin.Username}");
-            if (!admin.Permissions.CanAddLocations)
+            if (!admin.Permissions.CanAddLocations && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.AddLocations) > 0)
                 System.Console.WriteLine("[a] Can add locations");
-            if (!admin.Permissions.CanCreatePersonnel)
+            if (!admin.Permissions.CanCreatePersonnel && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.CreatePersonnelAccounts) > 0)
                 System.Console.WriteLine("[c] Can create Personnel accounts");
-            if (!admin.Permissions.CanViewPermissionsList)
+            if (!admin.Permissions.CanViewPermissionsList && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.ViewPermissionsList) > 0)
                 System.Console.WriteLine("[v] Can view the permissions list");
-            if (!admin.Permissions.CanRegisterPatients)
+            if (!admin.Permissions.CanRegisterPatients && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.RegisterPatients) > 0)
                 System.Console.WriteLine("[r] Can register patients");
             // Admin to Admin
-            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.AddLocations) == 0)
+            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.AddLocations) == 0
+            && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.AddLocations) > 0)
                 System.Console.WriteLine("[aa] Can assign Admin permission: Add locations ");
-            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.RegisterPatients) == 0)
+            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.RegisterPatients) == 0
+            && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.RegisterPatients) > 0)
                 System.Console.WriteLine("[ar] Can assign Admin permission: Handle registration");
-            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.CreatePersonnelAccounts) == 0)
+            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.CreatePersonnelAccounts) == 0
+            && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.CreatePersonnelAccounts) > 0)
                 System.Console.WriteLine("[ac] Can assign Admin permission: Create Personnel acounts");
-            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.ViewPermissionsList) == 0)
+            if ((admin.Permissions.CanAssignAdminPermissions & AdminToAdminPermission.ViewPermissionsList) == 0
+            && (Permissions.CanAssignAdminPermissions & AdminToAdminPermission.ViewPermissionsList) > 0)
                 System.Console.WriteLine("[av] Can assign Admin permission: View Permissions List");
             // Admin to Personnel
-            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.HandleAppointments) == 0)
+            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.HandleAppointments) == 0
+            && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.HandleAppointments) > 0)
                 System.Console.WriteLine("[pa] Can assign Personnel permission: Handle Appointments");
-            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewJournalEntries) == 0)
+            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewJournalEntries) == 0
+            && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewJournalEntries) > 0)
                 System.Console.WriteLine("[pj] Can assign Personnel permission: View Journal Entries");
-            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.MarkPermissionLevel) == 0)
+            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.MarkPermissionLevel) == 0
+            && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.MarkPermissionLevel) > 0)
                 System.Console.WriteLine("[pr] Can assign Personnel permission: Assign level of Read Permission");
-            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewLocationSchedule) == 0)
+            if ((admin.Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewLocationSchedule) == 0
+            && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewLocationSchedule) > 0)
                 System.Console.WriteLine("[pv] Can assign Personnel permission: View schedule by location");
-            switch (System.Console.ReadLine())
+            switch (System.Console.ReadLine() ?? "")
             {
                 case "a":
-                    admin.Permissions.CanAddLocations = true;
-                    break;
+                    return admin.Permissions.CanAddLocations = true;
                 case "c":
-                    admin.Permissions.CanCreatePersonnel = true;
-                    break;
+                    return admin.Permissions.CanCreatePersonnel = true;
                 case "v":
-                    admin.Permissions.CanViewPermissionsList = true;
-                    break;
+                    return admin.Permissions.CanViewPermissionsList = true;
                 case "r":
-                    admin.Permissions.CanRegisterPatients = true;
-                    break;
+                    return admin.Permissions.CanRegisterPatients = true;
                 case "aa":
                     admin.Permissions.EnablesAdminPermission(AdminToAdminPermission.AddLocations);
-                    break;
+                    return true;
                 case "ar":
                     admin.Permissions.EnablesAdminPermission(AdminToAdminPermission.RegisterPatients);
-                    break;
+                    return true;
                 case "ac":
                     admin.Permissions.EnablesAdminPermission(AdminToAdminPermission.CreatePersonnelAccounts);
-                    break;
+                    return true;
                 case "av":
                     admin.Permissions.EnablesAdminPermission(AdminToAdminPermission.ViewPermissionsList);
-                    break;
+                    return true;
                 case "pa":
                     admin.Permissions.EnablesPersonnelPermission(AdminToPersonnelPermission.HandleAppointments);
-                    break;
+                    return true;
                 case "pj":
                     admin.Permissions.EnablesPersonnelPermission(AdminToPersonnelPermission.ViewJournalEntries);
-                    break;
+                    return true;
                 case "pr":
                     admin.Permissions.EnablesPersonnelPermission(AdminToPersonnelPermission.MarkPermissionLevel);
-                    break;
+                    return true;
                 case "pv":
                     admin.Permissions.EnablesPersonnelPermission(AdminToPersonnelPermission.ViewLocationSchedule);
-                    break;
+                    return true;
                 case "":  // exits to previous menu
-                    return;
+                    break;
                 default: // restarts if bad user input
                     continue;
             }
             break;
         }
+        return false;
     }
 
-    // Assign permssions, to Personnel
-    private void AssignPermissionToPersonnel(Personnel personnel)
+    // Assign permssions, to Personnel, return value whether a permission was changed or not
+    private bool AssignPermissionToPersonnel(Personnel personnel)
     {
         while (true)
         {
             Console.Clear();
+            if (personnel.Permissions.CanHandleAppointments && personnel.Permissions.CanHandleJournalEntries && personnel.Permissions.CanViewLocationSchedule)
+            {
+                System.Console.WriteLine($"{personnel.Username} has all the available permissions.\n\nPress [Enter] to return to the Permissions Menu");
+                Console.ReadLine();
+                break;
+            }
+            // both the person who's permissions we're assigning and the admin that is setting it has to be checked
             System.Console.WriteLine($"Select the permission to assign to: {personnel.Username}");
-            if (!personnel.Permissions.CanHandleAppointments)
+            if (!personnel.Permissions.CanHandleAppointments
+            && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.HandleAppointments) > 0)
                 System.Console.WriteLine("[a] Can accept, deny or modify Appointments");
-            if (!personnel.Permissions.CanHandleJournalEntries)
+            if (!personnel.Permissions.CanHandleJournalEntries
+            && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.MarkPermissionLevel) > 0)
                 System.Console.WriteLine("[p] Can Assign level of Read Permission");
-            if (!personnel.Permissions.CanViewLocationSchedule)
+            if (!personnel.Permissions.CanViewLocationSchedule
+            && (Permissions.CanAssignPersonnelPermissions & AdminToPersonnelPermission.ViewLocationSchedule) > 0)
                 System.Console.WriteLine("[v] Can view schedule by location");
-            System.Console.WriteLine("Press enter to return to the previous menu");
-            switch (System.Console.ReadLine())
+            System.Console.WriteLine("Press [enter] to return to the previous menu");
+            switch (System.Console.ReadLine() ?? "")
             {
                 case "v":
                     personnel.Permissions.CanViewLocationSchedule = true;
-                    break;
+                    return true;
                 case "a":
                     personnel.Permissions.CanHandleAppointments = true;
-                    break;
+                    return true;
                 case "p":
                     personnel.Permissions.CanHandleJournalEntries = true;
-                    break;
+                    return true;
                 case "":  // exits to previous menu
-
-                    return;
+                    break;
                 default: // restarts if bad user input
                     continue;
             }
             break;
         }
+        return false;
     }
 
     // static method show admin menu
@@ -307,7 +341,7 @@ class Admin : CommonPersonnel
                             case "c":
                                 if (!Permissions.CanCreatePersonnel)
                                 {
-                                    System.Console.WriteLine("You don't have permission to create personnel accounts.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to create personnel accounts.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -331,6 +365,7 @@ class Admin : CommonPersonnel
                     bool menuActive = true;
                     while (menuActive)
                     {
+                        Console.Clear();
                         menu.Clear();
                         menu.Add("Permissions Menu");
                         if (Permissions.CanViewPermissionsList)
@@ -346,7 +381,7 @@ class Admin : CommonPersonnel
                             case "v":
                                 if (!Permissions.CanViewPermissionsList)
                                 {
-                                    System.Console.WriteLine("You don't have permission to view the permissions list.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to view the permissions list.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -356,7 +391,7 @@ class Admin : CommonPersonnel
                             case "a":
                                 if (Permissions.CanAssignAdminPermissions == AdminToAdminPermission.False)
                                 {
-                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
@@ -368,14 +403,15 @@ class Admin : CommonPersonnel
                             case "p":
                                 if (Permissions.CanAssignPersonnelPermissions == AdminToPersonnelPermission.False)
                                 {
-                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\nPress enter to continue.");
+                                    System.Console.WriteLine("You don't have permission to handle admin permissions.\n\nPress [enter] to continue.");
                                     Console.ReadLine();
                                     break;
                                 }
                                 Personnel personnelSelected = (Personnel)Utilities.PickUserFromList(Utilities.ConvertUserList(allUsers), Role.Personnel);
-                                AssignPermissionToPersonnel(personnelSelected);
-                                System.Console.WriteLine("The permissions have been updated. ");
-                                Permission.ViewPermissionsOf(personnelSelected);
+                                if (AssignPermissionToPersonnel(personnelSelected))
+                                    System.Console.WriteLine("The permissions have been updated. ");
+                                if (Permissions.CanViewPermissionsList)
+                                    Permission.ViewPermissionsOf(personnelSelected);
                                 break;
                             case "":
                                 menuActive = false;
