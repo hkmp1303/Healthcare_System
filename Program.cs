@@ -28,7 +28,7 @@ while (running)
     if (activeUser == null)
     {
         Console.Clear();
-        System.Console.WriteLine("welcome to the start page");
+        System.Console.WriteLine("Welcome to the Start Menu");
         System.Console.WriteLine(" ");
         System.Console.WriteLine("[1] Register");
         System.Console.WriteLine("[2]. Login");
@@ -37,10 +37,18 @@ while (running)
         switch (Console.ReadLine())
         {
             case "1":
-                IUser newUSer = UserCreator.CreateUnreg();
+                Console.Clear();
+                UnregUser newUSer = (UnregUser)UserCreator.CreateUnreg();
+                if (Utilities.CheckUsername(users, newUSer.Username))
+                {
+                    System.Console.WriteLine($"{newUSer.Username} is not available. Enter a different selection.\n\nPress [enter] to return to the Start Menu ");
+                    Console.ReadLine();
+                    break;
+                }
                 users.Add(newUSer);
                 saving.SaveUser(users);
-                Console.WriteLine("sucssses");
+                Console.Write("Your account has been registered.\n\nPress [enter] to return to the Start Menu ");
+                Console.ReadLine();
                 break;
 
 
