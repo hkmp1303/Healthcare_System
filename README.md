@@ -13,38 +13,38 @@ Lastly, producing the minimal viable product (MVP) was emphasized as a key decis
 ## ✔️ System requirements:
 - [ ] security and safety: limit user access to information based on role
 - **Users**
-  - [ ] login
-  - [ ] logout
-  - [ ] request registration as a patient
-  - [ ] once logged in: view my schedule
+  - [X] login
+  - [X] logout
+  - [X] request registration as a patient
+  - [X] once logged in: view my schedule
 - **Admin user**
   - [ ] assign personnel to regions
   - [ ] add locations
-  - [ ] accept user registration as a patient
-  - [ ] deny user registration as a patient
-  - [ ] create personnel accounts
-  - [ ] view the permissions list
-  - [ ] assign permissions for the permission system in fine granularity including:
-    - [ ] permission to handle registrations
-    - [ ] permission to add locations
-    - [ ] permission to create personnel accounts
-    - [ ] permission to view the permissions list
+  - [X] accept user registration as a patient
+  - [X] deny user registration as a patient
+  - [X] create personnel accounts
+  - [X] view the permissions list
+  - [X] assign permissions for the permission system in fine granularity including:
+    - [X] permission to handle registrations
+    - [X] permission to add locations
+    - [X] permission to create personnel accounts
+    - [X] permission to view the permissions list
 - **Personnel user**
-  - [ ] view patients journal entries
-  - [ ] assign journal entries various levels of read permissions
-  - [ ] register appointments
-  - [ ] modify appointments
-  - [ ] approve appointment requests
+  - [X] view patients journal entries
+  - [X] assign journal entries various levels of read permissions
+  - [X] register appointments
+  - [X] modify appointments
+  - [X] approve appointment requests
   - [ ] view schedule by location
 - **Patient user**
-  - [ ] view own journal
-  - [ ] request an appointment
+  - [X] view own journal
+  - [X] request an appointment
 
-<!--
 ### Future feature creeps
 - [ ] implement dictionary for user accounts
-- [ ] Approve/deny registration requests without exiting registration menu
--->
+- [ ] Approve/deny multiple registration requests without moving between menus
+- [ ] Revoking assigned permission rights
+- [ ] An option to revoke patient registration requests as a user
 
 ## 🚀 How to Run
 ```
@@ -56,15 +56,15 @@ dotnet run
 ```
 
 ## 🦮 Quick guide
-Follow on screen console prompts throughout the system. Menus will display key characters for user selection to navigate the program.
+Follow on screen console prompts throughout the system. Menus will display key characters for user selection to navigate the program. 
 
 ## 🖌️ Design Structure
-The goals of this project include to practice using OOP, state machine design and collaboration with multiple project contributors.
+The goals of this project include to practice using OOP, event based design and collaboration with multiple project contributors.
 
-In accordance with state machine design, as internal program states change these changes alter object behavior.
+In accordance with these goals, as internal program states change these changes alter object behavior.
 
 ### Data
-The project uses CSV files for persistent data storage between sessions. The CSV file updates when data changes occur.
+The project uses CSV files for persistent data storage between sessions. The CSV file updates when data changes occur and is saved when exiting the program.
 
 ### Project structure
 ![UML Diagram of system classes](docs/uml25.png)
