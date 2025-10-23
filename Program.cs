@@ -34,7 +34,7 @@ while (running)
         System.Console.WriteLine("[2]. Login");
         System.Console.WriteLine("[Q]. Quit");
 
-        switch (Console.ReadLine())
+        switch ((Console.ReadLine() ?? "").ToUpper())
         {
             case "1":
                 Console.Clear();
@@ -160,7 +160,7 @@ while (running)
         System.Console.WriteLine("[L]. Log Out");
         System.Console.WriteLine("[Q]. Quit");
 
-        switch (Console.ReadLine())
+        switch ((Console.ReadLine() ?? "").ToUpper())
         {
             case "1":
                 journalSystem.SeeJournalEntry(journals, users, activeUser);
