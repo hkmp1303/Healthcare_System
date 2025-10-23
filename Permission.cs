@@ -153,7 +153,8 @@ class Permission
     // Show permissions list, single user
     public static void ViewPermissionsOf(CommonPersonnel user)
     {
-        System.Console.WriteLine($"The {user.Username} has the following permissions: ");
+        Console.Clear();
+        System.Console.WriteLine($"{user.Username} has the following permissions: ");
         if (user.Permissions.CanAddLocations)
             System.Console.WriteLine("Can add locations");
         if (user.Permissions.CanCreatePersonnel)
@@ -187,13 +188,13 @@ class Permission
             System.Console.WriteLine("Can Handle Appointments");
         if (user.Permissions.CanHandleJournalEntries)
             System.Console.WriteLine("Can Assign level of Read Permission");
-        System.Console.WriteLine("Press enter to return to the previous menu");
+        System.Console.WriteLine("\nPress [enter] to return to the previous menu");
         System.Console.ReadLine();
     }
 }
 
 // As admin, be able to assign or give Admins permissions
-[Flags] // enables verbate representation when .ToString() is used
+[Flags] // enables verbatim representation when .ToString() is used
 public enum AdminToAdminPermission
 {
     False, // can not assign persmissions
